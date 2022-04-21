@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BusnLogicVecozo;
 
 namespace VecozoWinForms
 {
@@ -16,7 +17,7 @@ namespace VecozoWinForms
     {
         //Medewerker jan;
         //Rating? rating;
-        //Database database = new Database();
+        
         public Form1(Medewerker med)
         {
             InitializeComponent();

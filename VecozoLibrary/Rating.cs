@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InterfaceLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,10 @@ namespace BusnLogicVecozo
             return beschrijving;
         }
 
-
+        public RatingDTO GetDTO()
+        {
+            return new RatingDTO(this.Id, (ScoreDTO)this.Score, this.Beschrijving, this.LaatsteDatum);
+        }
         public override string ToString()
         {
             return $"Score: {this.Score}\n\nBeschrijving: {this.Beschrijving}nLaatstedatum: {this.LaatsteDatum}";

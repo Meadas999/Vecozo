@@ -21,7 +21,7 @@ namespace BusnLogicVecozo
         public Medewerker(string email, string wachtwoord, string voornaam, string achternaam, string tussenvoegsel = "") : base(email, wachtwoord, voornaam, achternaam, tussenvoegsel)
         {
         }
-        public Medewerker(MedewerkerDTO dto) : base(dto.Email, dto.Wachtwoord, dto.Voornaam, dto.Achternaam, dto.userID, dto.Tussenvoegsel)
+        public Medewerker(MedewerkerDTO dto) : base(dto.Email, dto.Wachtwoord, dto.Voornaam, dto.Achternaam, dto.Id, dto.Tussenvoegsel)
         {
 
 
@@ -30,7 +30,7 @@ namespace BusnLogicVecozo
             MijnTeam = new(dto.MijnTeam);
         }
 
-        public MedewerkerDTO ToDTO()
+        public MedewerkerDTO GetDTO()
         {
             return new MedewerkerDTO(this.Email, this.Wachtwoord,this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
         }

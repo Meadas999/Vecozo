@@ -14,7 +14,7 @@ namespace InterfaceLib
         public void Update(VaardigheidDTO vaardigheid);
         public List<VaardigheidDTO> FindByMedewerker(MedewerkerDTO medewerker);
         public List<VaardigheidDTO> GetAll();
-        public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid);
+        public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid, RatingDTO rating);
         public VaardigheidDTO? BestaandeVaardigeheid(string naam);
 
     }

@@ -14,7 +14,7 @@ namespace InterfaceLib
         public string Voornaam { get; }
         public string? Tussenvoegsel { get; }
         public string Achternaam { get; }
-        public int userID { get; }
+        public int Id { get; }
         public List<LeidingGevendeDTO> LeidingGevenden { get; set; } = new List<LeidingGevendeDTO>();
         public List<VaardigheidDTO> Vaardigheden { get; set; } = new List<VaardigheidDTO>();
         public TeamDTO? MijnTeam { get; set; }
@@ -26,7 +26,7 @@ namespace InterfaceLib
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
             Achternaam = achternaam;
-            this.userID = userID;
+            this.Id = userID;
         }
     }
 }
