@@ -13,15 +13,12 @@ namespace DALMSSQL
         ConnectionDb db = new ConnectionDb();
         public void Create(VaardigheidDTO vaardigheid)
         {
-            if(BestaandeVaardigeheid(vaardigheid.Naam) == null)
-            {
                 db.OpenConnection();
                 string query = @"INSERT INTO Vaardigheid VALUES(@naam)";
                 SqlCommand command = new SqlCommand(@query, db.connection);
                 command.Parameters.AddWithValue("@naam", vaardigheid.Naam);
                 command.ExecuteNonQuery();
                 db.CloseConnetion();
-            }
         }
 
         public void Delete(VaardigheidDTO vaardigheid)

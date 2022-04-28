@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DALMSSQL\DALMSSQL.csproj" />
     <ProjectReference Include="..\VecozoLibrary\BusnLogicVecozo.csproj" />
   </ItemGroup>
 

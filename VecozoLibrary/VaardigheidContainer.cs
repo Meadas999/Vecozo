@@ -7,7 +7,7 @@ using InterfaceLib;
 
 namespace BusnLogicVecozo
 {
-    internal class VaardigheidContainer
+    public class VaardigheidContainer
     {
         private readonly IVaardigheidContainer container;
         public VaardigheidContainer(IVaardigheidContainer container)
@@ -56,7 +56,12 @@ namespace BusnLogicVecozo
         }
         public Vaardigheid? BestaandeVaardigeheid(string naam)
         {
-            
+            VaardigheidDTO dto = container.BestaandeVaardigeheid(naam);
+            if (dto == null)
+            {
+                return null;
+            }
+            return new Vaardigheid(dto);
         }
     }
 }
