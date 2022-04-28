@@ -8,12 +8,12 @@ namespace BusnLogicVecozo
 {
     public abstract class Gebruiker
     {
-        public string Email { get; set; }
-        public string Wachtwoord { get; set; }
-        public string Voornaam { get; set; }
-        public string? Tussenvoegsel { get; set; }
-        public string Achternaam { get; set; }
-        public int UserID { get; set; }
+        public string Email { get; private set; }
+        public string Wachtwoord { get; private set; }
+        public string Voornaam { get; private set; }
+        public string? Tussenvoegsel { get; private set; }
+        public string Achternaam { get; private set; }
+        public int UserID { get; private set; }
 
         public Gebruiker(string email, string wachtwoord,string voornaam,string achternaam,int userID = 0, string tussenvoegsel = "")
         {

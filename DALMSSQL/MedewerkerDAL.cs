@@ -66,7 +66,10 @@ namespace DALMSSQL
         {
             List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
             db.OpenConnection();
-            string query = @"SELECT * FROM Medewerker M INNER JOIN Vaardigheid V ON V.Medewerker_id = M.Id WHERE V.Naam = @naam";
+            string query = @"SELECT * FROM Medewerker 
+                 INNER JOIN MedewerkerVaardigheid on Medewerker.Id = MedewerkerVaardigheid.MedewerkerId
+                 INNER JOIN Vaardigheid on Vaardigheid.Id = MedewerkerVaardigheid.VaardigheidId
+                 WHERE Vaardigheid.Naam LIKE '%' + @naam + '%'";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@naam", naam);
             SqlDataReader reader = command.ExecuteReader();
