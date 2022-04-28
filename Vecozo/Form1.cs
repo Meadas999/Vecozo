@@ -10,14 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BusnLogicVecozo;
+using DALMSSQL;
 
 namespace VecozoWinForms
 {
     public partial class Form1 : Form
     {
-        //Medewerker jan;
-        //Rating? rating;
-        
+        VaardigheidContainer container = new VaardigheidContainer(new VaardigheidDAL());
+        Medewerker jan;
+        Rating? rating;
+
         public Form1(Medewerker med)
         {
             InitializeComponent();
@@ -28,10 +30,13 @@ namespace VecozoWinForms
         {
             if(CheckIfRbtnIsChecked() != null && ZijnAlleVeldenIngevoerd())
             {
-                database.VoegVaardigheidToe(jan, tbVaardigheid.Text, tbType.Text, (int)rating.Score, tbBeschrijving.Text); 
-                ((VaardighedenOverzicht)this.Owner).UpdateLbxVaardigheden();
-                ClearAllFields();
-                NaarDeOverzichtForm();
+                if (container.BestaandeVaardigeheid(tbVaardigheid.Text) != null)
+                {
+                    container.VoegVaardigheidToeAanMedewerker(jan, container.BestaandeVaardigeheid(tbVaardigheid.Text), rating);
+                }
+                else
+                {
+                }
             }
         }
 
@@ -89,7 +94,7 @@ namespace VecozoWinForms
             ToolTip toolTip = new ToolTip();
             if (rb != null && rb.Tag != null)
             {
-                rating = new((Score.Scores)Enum.Parse(typeof(Score.Scores), rb.Tag.ToString()));
+                rating = new((Score)Enum.Parse(typeof(Score), rb.Tag.ToString()));
                 toolTip.SetToolTip(rb, rating.GetScoreBeschrijving(Convert.ToInt32(rb.Tag)));
             }
         }
@@ -123,6 +128,11 @@ namespace VecozoWinForms
         }
 
         private void tbVaardigheid_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbtn1Ster_CheckedChanged(object sender, EventArgs e)
         {
 
         }
