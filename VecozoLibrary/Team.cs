@@ -9,19 +9,23 @@ namespace BusnLogicVecozo
 {
     public class Team
     {
+        public int Id { get; set; }
         public string Kleur { get; }
         public string Taak { get; }
         public float GemRating { get; }
         public List<Medewerker> GroepLeden { get; } = new List<Medewerker>();
 
-        public Team(string kleur, string taak)
+        public Team(int id, string kleur, string taak, float gemRating)
         {
-            this.Kleur = kleur;
-            this.Taak = taak;
+            id = Id;
+            Kleur = kleur;
+            Taak = taak;
+            GemRating = gemRating;
         }
 
         public Team(TeamDTO dto)
         {
+            Id = dto.Id;
             this.Kleur = dto.Kleur;
             this.Taak = dto.Taak;
             this.GemRating = dto.GemRating;

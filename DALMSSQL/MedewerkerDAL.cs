@@ -1,36 +1,48 @@
 ﻿using InterfaceLib;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DALMSSQL
 {
     public class MedewerkerDAL : IMedewerkerContainer
     {
         ConnectionDb db = new ConnectionDb();
+
+        public void Create(MedewerkerDTO medewerker, string newWachtwoord)
+        {
+            string wachtwoordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(newWachtwoord, 13);
+            db.OpenConnection();
+            string query = "INSERT INTO Medewerker (Voornaam, Tussenvoegsel, Achternaam, Email, Wachtwoord, TeamId) VALUES (@Voornaam, @Tussenvoegsel, @Achternaam, @Email, @Wachtwoord, @TeamId)";
+            SqlCommand cmd = new SqlCommand(query, db.connection);
+            cmd.Parameters.AddWithValue("@Voornaam", medewerker.Voornaam);
+            cmd.Parameters.AddWithValue("@Tussenvoegsel", medewerker.Tussenvoegsel);
+            cmd.Parameters.AddWithValue("@Achternaam", medewerker.Achternaam);
+            cmd.Parameters.AddWithValue("@Email", medewerker.Email);
+            cmd.Parameters.AddWithValue("@Wachtwoord", newWachtwoord);
+            cmd.Parameters.AddWithValue("@TeamId", medewerker.MijnTeam.Id);
+            cmd.ExecuteNonQuery();
+            db.CloseConnetion();
+        }
         public MedewerkerDTO? Inloggen(string email, string wachtwoord)
         {
             db.OpenConnection();
             MedewerkerDTO med = null;
-            string query = @"SELECT * FROM Medewerker WHERE Email = @email AND Wachtwoord = @wachtwoord";
+            string query = @"SELECT WachtwoordHash, Id FROM Medewerker WHERE Email = @email";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@email", email);
-            command.Parameters.AddWithValue("@wachtwoord", wachtwoord);
             SqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
                     med = new MedewerkerDTO(
-                        reader["Email"].ToString(),
-                        reader["Wachtwoord"].ToString(),
-                        reader["Voornaam"].ToString(),
-                        reader["Achternaam"].ToString(),
-                        reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"]));
+                    reader["Wachtwoord"].ToString(),
+                    Convert.ToInt32(reader["Id"]));
+                    bool isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.WachtwoordHash);
+                    if (isValid)
+                    {
+                        med = FindById(med.Id);
+                    }
+                    med = null;
                 }
             }
             db.CloseConnetion();
@@ -54,7 +66,7 @@ namespace DALMSSQL
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
                         Convert.ToInt32(reader["Id"])));
-                    
+
                 }
                 return medewerkers;
 
@@ -110,6 +122,30 @@ namespace DALMSSQL
             }
             db.CloseConnetion();
             return medewerkers;
+        }
+        public MedewerkerDTO FindById(int id)
+        {
+            MedewerkerDTO medewerker = null;
+            db.OpenConnection();
+            string query = @"SELECT * FROM Medewerker WHERE Id = @id";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@id", id);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    medewerker = new MedewerkerDTO(
+                        reader["Email"].ToString(),
+                        reader["Wachtwoord"].ToString(),
+                        reader["Voornaam"].ToString(),
+                        reader["Achternaam"].ToString(),
+                        reader["Tussenvoegsel"].ToString(),
+                        Convert.ToInt32(reader["Id"]));
+                }
+            }
+            db.CloseConnetion();
+            return medewerker;
         }
     }
 }

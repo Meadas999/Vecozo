@@ -122,7 +122,7 @@ namespace DALMSSQL
                 db.CloseConnetion();
             }
         }
-        public void Update(RatingDTO rating, VaardigheidDTO vaardigheid)
+        public void UpdateRating(RatingDTO rating, VaardigheidDTO vaardigheid)
         {
             db.OpenConnection();
             string query = "UPDATE MedewerkerVaardigheid SET Beschrijving = @beschrijving, Score = @score, LaatsteDatum = @laatsteDatum WHERE VaardigheidId = @id";

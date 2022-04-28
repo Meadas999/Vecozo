@@ -10,7 +10,7 @@ namespace InterfaceLib
     {
 
         public string Email { get; }
-        public string Wachtwoord { get; }
+        public string WachtwoordHash { get; }
         public string Voornaam { get; }
         public string? Tussenvoegsel { get; }
         public string Achternaam { get; }
@@ -19,14 +19,20 @@ namespace InterfaceLib
         public List<VaardigheidDTO> Vaardigheden { get; set; } = new List<VaardigheidDTO>();
         public TeamDTO? MijnTeam { get; set; }
        
-        public MedewerkerDTO(string email, string wachtwoord, string voornaam, string? tussenvoegsel, string achternaam, int userID)
+        public MedewerkerDTO(string email, string wachtwoordHash, string voornaam, string? tussenvoegsel, string achternaam, int userID)
         {
             Email = email;
-            Wachtwoord = wachtwoord;
+            WachtwoordHash = wachtwoordHash;
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
             Achternaam = achternaam;
             this.Id = userID;
+        }
+
+        public MedewerkerDTO(string wachtwoordHash, int id)
+        {
+            WachtwoordHash = wachtwoordHash;
+            Id = id;
         }
     }
 }

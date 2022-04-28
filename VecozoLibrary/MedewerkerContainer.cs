@@ -15,6 +15,7 @@ namespace BusnLogicVecozo
         {
             this.medewerkerContainer = medewerkerContainer;
         }
+        
         public Medewerker Inloggen(string email, string wachtwoord)
         {
             MedewerkerDTO dto = medewerkerContainer.Inloggen(email, wachtwoord);
@@ -42,6 +43,12 @@ namespace BusnLogicVecozo
                 medewerkers.Add(medewerker);
             }
             return medewerkers;
+        }
+        public Medewerker FindById(int id)
+        {
+            MedewerkerDTO dto = medewerkerContainer.FindById(id);
+            Medewerker medewerker = new Medewerker(dto);
+            return medewerker;
         }
     }
 }

@@ -63,11 +63,11 @@ namespace BusnLogicVecozo
             }
             return new Vaardigheid(dto);
         }
-        public void Update(Rating rating, Vaardigheid vaardigheid)
+        public void UpdateRating(Rating rating, Vaardigheid vaardigheid)
         {
             VaardigheidDTO dto = vaardigheid.GetDTO();
             RatingDTO dto2 = rating.GetDTO();
-            container.Update(dto2, dto);
+            container.UpdateRating(dto2, dto);
         }
     }
 }
