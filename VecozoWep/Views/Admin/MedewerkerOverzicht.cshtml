@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "MedewerkerOverzicht";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -9,7 +8,7 @@
 <body>
     <p>Laatst gewijzegd: 20-04-2022</p>
 
-    <table class="table table-borderless table-hover">
+    <table class="table  table-hover">
         <thead>
             <tr>
                 <th scope="col">Naam</th>
@@ -19,36 +18,76 @@
         </thead>
         <tbody>
             <tr>
-                <td>C#</td>
                 <td>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        C#
+                    </a>
                 </td>
-                <td>twee jaar ervaring</td>
+                <td>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+
+                    </a>
+                </td>
+                <td>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        twee jaar ervaring
+                    </a>
+                </td>
             </tr>
             <tr>
-                <td>JavaScript</td>
                 <td>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        JavaScript
+                    </a>
                 </td>
-                <td>10 jaar ervaring en 3 jaar gewerkt bij Google</td>
+                <td>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                    </a>
+                </td>
+                <td>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        10 jaar ervaring en 3 jaar gewerkt bij Google
+                    </a>
+                </td>
             </tr>
             <tr>
-                <td>SQL</td>
                 <td>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        SQL
+                    </a>
                 </td>
-                <td>5 jaar ervaring</td>
+                <td>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                    </a>
+                </td>
+                <td>
+                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                        5 jaar ervaring
+                </td>
+                </a>
             </tr>
         </tbody>
     </table>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            ...
+        </div>
+    </div>
 </body>
 

@@ -19,3 +19,8 @@ body {
 .checked {
     color: orange;
 }
+td a {
+    display: block;
+    text-decoration: none;
+    color: #000000;
+}
