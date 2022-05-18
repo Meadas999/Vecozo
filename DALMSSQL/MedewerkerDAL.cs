@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace DALMSSQL
 {
-    public class MedewerkerDAL : ILeidinggevendeContainer
+    public class MedewerkerDAL : IMedewerkerContainer
     {
         ConnectionDb db = new ConnectionDb();
 
@@ -27,7 +27,7 @@ namespace DALMSSQL
             bool isValid = false;
             db.OpenConnection();
             MedewerkerDTO med = null;
-            string query = @"SELECT Wachtwoord, Id FROM Leidinggevenden WHERE Email = @email";
+            string query = @"SELECT Wachtwoord, Id FROM Medewerker WHERE Email = @email";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@email", email);
             SqlDataReader reader = command.ExecuteReader();

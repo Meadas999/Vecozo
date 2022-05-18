@@ -26,9 +26,10 @@ namespace BusnLogicVecozo
             leidinggevendeContainer.UpdateMedewerker(dto);
         }
         public LeidingGevende? Inloggen(string email, string wachtwoord)
-        
-            
-            leidinggevendeContainer.Inloggen(email, wachtwoord);
+        {
+            LeidingGevendeDTO dto = leidinggevendeContainer.Inloggen(email, wachtwoord);
+            LeidingGevende leid = new LeidingGevende(dto);
+            return leid;
         }
     }
 }
