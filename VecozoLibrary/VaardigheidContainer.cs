@@ -35,10 +35,9 @@ namespace BusnLogicVecozo
             VaardigheidDTO dto = vaardigheid.GetDTO();
             container.Update(dto);
         }
-        public List<Vaardigheid> FindByMedewerker(Medewerker medewerker)
+        public List<Vaardigheid> FindByMedewerker(int id)
         {
-            MedewerkerDTO dto = medewerker.GetDTO();
-            List<VaardigheidDTO> dtos = container.FindByMedewerker(dto);
+            List<VaardigheidDTO> dtos = container.FindByMedewerker(id);
             return dtos.Select(v => new Vaardigheid(v)).ToList();
 
         }

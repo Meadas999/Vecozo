@@ -31,15 +31,15 @@ namespace DALMSSQL
             db.CloseConnetion();
         }
 
-        public List<VaardigheidDTO> FindByMedewerker(MedewerkerDTO medewerker)
+        public List<VaardigheidDTO> FindByMedewerker(int id)
         {
             List<VaardigheidDTO> vaardigheden = new List<VaardigheidDTO>();
             db.OpenConnection();
             string query = @"SELECT * FROM Vaardigheid 
             INNER JOIN MedewerkerVaardigheid on Vaardigheid.Id
-            WHERE MedewerkerVaardigheden.MedewerkerId = @medId";
+            = @medId";
             SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@medId", medewerker.Id);
+            command.Parameters.AddWithValue("@medId", id);
             SqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
             {

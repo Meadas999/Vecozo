@@ -19,10 +19,9 @@ namespace InterfaceLib
         public List<VaardigheidDTO> Vaardigheden { get; set; } = new List<VaardigheidDTO>();
         public TeamDTO? MijnTeam { get; set; }
        
-        public MedewerkerDTO(string email, string wachtwoordHash, string voornaam, string? tussenvoegsel, string achternaam, int userID)
+        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID)
         {
             Email = email;
-            WachtwoordHash = wachtwoordHash;
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
             Achternaam = achternaam;
@@ -33,6 +32,10 @@ namespace InterfaceLib
         {
             WachtwoordHash = wachtwoordHash;
             Id = id;
+        }
+        public MedewerkerDTO()
+        {
+
         }
     }
 }

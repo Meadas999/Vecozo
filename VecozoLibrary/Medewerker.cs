@@ -14,25 +14,25 @@ namespace BusnLogicVecozo
         public Team? MijnTeam { get; set; }
 
 
-        public Medewerker(string email, string wachtwoord, string voornaam, string achternaam, int userID, string tussenvoegsel) : base(email, wachtwoord, voornaam, achternaam, userID, tussenvoegsel)
+        public Medewerker(string email, string voornaam, string achternaam, int userID, string tussenvoegsel) : base(email,  voornaam, achternaam, userID, tussenvoegsel)
         {
         }
 
-        public Medewerker(string email, string wachtwoord, string voornaam, string achternaam, string tussenvoegsel = "") : base(email, wachtwoord, voornaam, achternaam, tussenvoegsel)
+        public Medewerker(string email, string voornaam, string achternaam, string tussenvoegsel = "") : base(email, voornaam, achternaam, tussenvoegsel)
         {
         }
-        public Medewerker(MedewerkerDTO dto) : base(dto.Email, dto.Wachtwoord, dto.Voornaam, dto.Achternaam, dto.Id, dto.Tussenvoegsel)
+        public Medewerker(MedewerkerDTO dto) : base(dto.Email, dto.Voornaam, dto.Achternaam, dto.Id, dto.Tussenvoegsel)
         {
 
 
-            Vaardigheden = dto.Vaardigheden.Select(x => new Vaardigheid(x)).ToList();
-            LeidingGevenden = dto.LeidingGevenden.Select(x => new LeidingGevende(x)).ToList();
-            MijnTeam = new(dto.MijnTeam);
+            //Vaardigheden = dto.Vaardigheden.Select(x => new Vaardigheid(x)).ToList();
+            //LeidingGevenden = dto.LeidingGevenden.Select(x => new LeidingGevende(x)).ToList();
+            //MijnTeam = new(dto.MijnTeam);
         }
 
         public MedewerkerDTO GetDTO()
         {
-            return new MedewerkerDTO(this.Email, this.Wachtwoord,this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
+            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
         }
         public override string ToString()
         {

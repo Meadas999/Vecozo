@@ -11,12 +11,12 @@ namespace BusnLogicVecozo
     {
         public List<Medewerker> Medewerkers { get; set; } = new List<Medewerker>();
 
-        public LeidingGevende(string email, string wachtwoord, string voornaam, string achternaam, int userID = 0, string tussenvoegsel = "") : base(email, wachtwoord, voornaam, achternaam, userID, tussenvoegsel)
+        public LeidingGevende(string email, string voornaam, string achternaam, int userID = 0, string tussenvoegsel = "") : base(email, voornaam, achternaam, userID, tussenvoegsel)
         {
         }
 
 
-        public LeidingGevende(LeidingGevendeDTO dto) : base(dto.Email, dto.Wachtwoord, dto.Voornaam, dto.Achternaam, dto.UserID, dto.Tussenvoegsel)
+        public LeidingGevende(LeidingGevendeDTO dto) : base(dto.Email, dto.Voornaam, dto.Achternaam, dto.UserID, dto.Tussenvoegsel)
         {
             Medewerkers = dto.Medewerkers.Select(m => new Medewerker(m)).ToList();
         }

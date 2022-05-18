@@ -11,4 +11,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DALMSSQL\DALMSSQL.csproj" />
+    <ProjectReference Include="..\VecozoLibrary\BusnLogicVecozo.csproj" />
+  </ItemGroup>
+
 </Project>

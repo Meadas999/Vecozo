@@ -24,9 +24,10 @@ namespace DALMSSQL
         }
         public MedewerkerDTO? Inloggen(string email, string wachtwoord)
         {
+            bool isValid = false;
             db.OpenConnection();
             MedewerkerDTO med = null;
-            string query = @"SELECT WachtwoordHash, Id FROM Medewerker WHERE Email = @email";
+            string query = @"SELECT Wachtwoord, Id FROM Leidinggevenden WHERE Email = @email";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@email", email);
             SqlDataReader reader = command.ExecuteReader();
@@ -37,16 +38,16 @@ namespace DALMSSQL
                     med = new MedewerkerDTO(
                     reader["Wachtwoord"].ToString(),
                     Convert.ToInt32(reader["Id"]));
-                    bool isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.WachtwoordHash);
-                    if (isValid)
-                    {
-                        med = FindById(med.Id);
-                    }
-                    med = null;
+                    isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.WachtwoordHash);
                 }
+                db.CloseConnetion();
             }
-            db.CloseConnetion();
-            return med;
+           
+            if (isValid)
+            { 
+                return FindById(med.Id);
+            }
+            return null;
         }
         public List<MedewerkerDTO> ZoekOpNaam(string naam)
         {
@@ -61,7 +62,6 @@ namespace DALMSSQL
                 while (reader.Read())
                 {
                     medewerkers.Add(new MedewerkerDTO(reader["Email"].ToString(),
-                        reader["Wachtwoord"].ToString(),
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
@@ -91,7 +91,6 @@ namespace DALMSSQL
                 {
                     medewerkers.Add(new MedewerkerDTO(
                         reader["Email"].ToString(),
-                        reader["Wachtwoord"].ToString(),
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
@@ -113,7 +112,6 @@ namespace DALMSSQL
                 {
                     medewerkers.Add(new MedewerkerDTO(
                         reader["Email"].ToString(),
-                        reader["Wachtwoord"].ToString(),
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
@@ -137,7 +135,6 @@ namespace DALMSSQL
                 {
                     medewerker = new MedewerkerDTO(
                         reader["Email"].ToString(),
-                        reader["Wachtwoord"].ToString(),
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
