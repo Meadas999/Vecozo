@@ -25,6 +25,14 @@ namespace InterfaceLib
             Achternaam = achternaam;
             this.UserID = userID;
         }
+        public LeidingGevendeDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID)
+        {
+            Email = email;
+            Voornaam = voornaam;
+            Tussenvoegsel = tussenvoegsel;
+            Achternaam = achternaam;
+            this.UserID = userID;
+        }
     }
     
     

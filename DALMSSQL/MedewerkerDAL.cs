@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace DALMSSQL
 {
-    public class MedewerkerDAL : IMedewerkerContainer
+    public class MedewerkerDAL : ILeidinggevendeContainer
     {
         ConnectionDb db = new ConnectionDb();
 

@@ -21,6 +21,11 @@ namespace BusnLogicVecozo
             Medewerkers = dto.Medewerkers.Select(m => new Medewerker(m)).ToList();
         }
         
+        public LeidingGevendeDTO GetDTO()
+        {
+            return new LeidingGevendeDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
+        }
+
 
         public override string ToString()
         {
