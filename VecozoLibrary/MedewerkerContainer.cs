@@ -9,9 +9,9 @@ namespace BusnLogicVecozo
 {
     public class MedewerkerContainer
     {
-        private readonly ILeidinggevendeContainer medewerkerContainer;
+        private readonly IMedewerkerContainer medewerkerContainer;
 
-        public MedewerkerContainer(ILeidinggevendeContainer medewerkerContainer)
+        public MedewerkerContainer(IMedewerkerContainer medewerkerContainer)
         {
             this.medewerkerContainer = medewerkerContainer;
         }

@@ -17,7 +17,7 @@ namespace DALMSSQL
             cmd.Parameters.AddWithValue("@Tussenvoegsel", medewerker.Tussenvoegsel);
             cmd.Parameters.AddWithValue("@Achternaam", medewerker.Achternaam);
             cmd.Parameters.AddWithValue("@Email", medewerker.Email);
-            cmd.Parameters.AddWithValue("@Wachtwoord", newWachtwoord);
+            cmd.Parameters.AddWithValue("@Wachtwoord", wachtwoordHash);
             cmd.Parameters.AddWithValue("@TeamId", medewerker.MijnTeam.Id);
             cmd.ExecuteNonQuery();
             db.CloseConnetion();

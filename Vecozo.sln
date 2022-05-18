@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32228.430
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VecozoWinForms", "Vecozo\VecozoWinForms.csproj", "{49FE46FD-80C5-4510-A2CE-FE195B1C6DA2}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterfaceLib", "InterfaceLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DALMSSQL", "DALMSSQL\DALMSSQL.csproj", "{614789D1-64FB-41AE-B054-B38D59562217}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VecozoWep", "VecozoWep\VecozoWep.csproj", "{CD72F629-7238-45D2-892E-76899C5B3475}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VecozoWeb", "VecozoWep\VecozoWeb.csproj", "{CD72F629-7238-45D2-892E-76899C5B3475}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
