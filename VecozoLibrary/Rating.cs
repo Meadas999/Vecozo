@@ -9,46 +9,31 @@ namespace BusnLogicVecozo
 {
     public class Rating
     {
-        public int Id { get; }
-        public Score Score { get; }
-        public string ScoreBeschrijving { get; }
+        public int Score { get; }
         public string Beschrijving { get; }
         public DateTime LaatsteDatum { get; set; }
+        public Vaardigheid Vaardigheid { get; set; }
 
 
-        public Rating(Score score, int id, string Beschrijving, DateTime datum)
+        public Rating(int score, string Beschrijving, DateTime datum, Vaardigheid vaardigheid)
         {
             this.Score = score;
-            this.Id = id;
             this.Beschrijving = Beschrijving;
-            this.ScoreBeschrijving = GetScoreBeschrijving((int)this.Score);
+            this.LaatsteDatum = datum;
+            this.Vaardigheid = vaardigheid;
         }
 
-        public Rating(Score score)
+        public Rating(RatingDTO rating)
         {
-            this.Score = score;
-            this.LaatsteDatum = DateTime.Now;
+            this.Score = rating.Score;
+            this.Beschrijving = rating.Beschrijving;
+            this.LaatsteDatum = rating.LaatsteDatum;
+            this.Vaardigheid = new Vaardigheid(rating.vaardigheidDTO);
         }
-
-        public string GetScoreBeschrijving(int rating)
-        {
-            string beschrijving = "";
-            if (rating == 1)
-                beschrijving = "heel klein beetje ervaring";
-            if (rating == 2)
-                beschrijving = "Ik kan een eenvoudige applicaties maken met de programmeertaal";
-            if (rating == 3)
-                beschrijving = "Ik kan medium applicaties maken met de progammeertaal";
-            if (rating == 4)
-                beschrijving = "Ik kan complexe applicaties maken met de programmeertaal";
-            if (rating == 5)
-                beschrijving = "Ik weet alles over de programmeertaal";
-            return beschrijving;
-        }
-
+      
         public RatingDTO GetDTO()
         {
-            return new RatingDTO(this.Id, (ScoreDTO)this.Score, this.Beschrijving, this.LaatsteDatum);
+            return new RatingDTO( this.Score, this.Beschrijving, this.LaatsteDatum, Vaardigheid.GetDTO());
         }
         public override string ToString()
         {

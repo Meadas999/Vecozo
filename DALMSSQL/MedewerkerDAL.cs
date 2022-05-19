@@ -6,6 +6,7 @@ namespace DALMSSQL
     public class MedewerkerDAL : IMedewerkerContainer
     {
         ConnectionDb db = new ConnectionDb();
+        VaardigheidDAL vaardigheidDAL = new VaardigheidDAL();
 
         public void Create(MedewerkerDTO medewerker, string newWachtwoord)
         {
@@ -121,9 +122,9 @@ namespace DALMSSQL
             db.CloseConnetion();
             return medewerkers;
         }
-        public MedewerkerDTO FindById(int id)
+        public MedewerkerDTO? FindById(int id)
         {
-            MedewerkerDTO medewerker = null;
+            MedewerkerDTO? medewerker = null;
             db.OpenConnection();
             string query = @"SELECT * FROM Medewerker WHERE Id = @id";
             SqlCommand command = new SqlCommand(query, db.connection);
@@ -138,7 +139,8 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"]));
+                        Convert.ToInt32(reader["Id"]),
+                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"])));
                 }
             }
             db.CloseConnetion();

@@ -16,16 +16,17 @@ namespace InterfaceLib
         public string Achternaam { get; }
         public int Id { get; }
         public List<LeidingGevendeDTO> LeidingGevenden { get; set; } = new List<LeidingGevendeDTO>();
-        public List<VaardigheidDTO> Vaardigheden { get; set; } = new List<VaardigheidDTO>();
+        public List<RatingDTO> Ratings { get; set; } = new List<RatingDTO>();
         public TeamDTO? MijnTeam { get; set; }
        
-        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID)
+        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID, List<RatingDTO> ratings)
         {
             Email = email;
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
             Achternaam = achternaam;
             this.Id = userID;
+            Ratings = ratings;
         }
 
         public MedewerkerDTO(string wachtwoordHash, int id)

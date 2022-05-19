@@ -35,10 +35,10 @@ namespace BusnLogicVecozo
             VaardigheidDTO dto = vaardigheid.GetDTO();
             container.Update(dto);
         }
-        public List<Vaardigheid> FindByMedewerker(int id)
+        public List<Rating> FindByMedewerker(int id)
         {
-            List<VaardigheidDTO> dtos = container.FindByMedewerker(id);
-            return dtos.Select(v => new Vaardigheid(v)).ToList();
+            List<RatingDTO> dtos = container.FindByMedewerker(id);
+            return dtos.Select(v => new Rating(v)).ToList();
 
         }
         public List<Vaardigheid> GetAll()
@@ -46,12 +46,11 @@ namespace BusnLogicVecozo
             List<VaardigheidDTO> dtos = container.GetAll();
             return dtos.Select(v => new Vaardigheid(v)).ToList();
         }
-        public void VoegVaardigheidToeAanMedewerker(Medewerker medewerker, Vaardigheid vaardigheid, Rating rating)
+        public void VoegVaardigheidToeAanMedewerker(Medewerker medewerker, Rating rating)
         {
             MedewerkerDTO dto = medewerker.GetDTO();
-            VaardigheidDTO dto2 = vaardigheid.GetDTO();
             RatingDTO dto3 = rating.GetDTO();
-            container.VoegVaardigheidToeAanMedewerker(dto, dto2, dto3);
+            container.VoegVaardigheidToeAanMedewerker(dto, dto3);
         }
         public Vaardigheid? BestaandeVaardigeheid(string naam)
         {

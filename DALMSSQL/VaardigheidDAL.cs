@@ -13,12 +13,12 @@ namespace DALMSSQL
         ConnectionDb db = new ConnectionDb();
         public void Create(VaardigheidDTO vaardigheid)
         {
-                db.OpenConnection();
-                string query = @"INSERT INTO Vaardigheid VALUES(@naam)";
-                SqlCommand command = new SqlCommand(@query, db.connection);
-                command.Parameters.AddWithValue("@naam", vaardigheid.Naam);
-                command.ExecuteNonQuery();
-                db.CloseConnetion();
+            db.OpenConnection();
+            string query = @"INSERT INTO Vaardigheid VALUES(@naam)";
+            SqlCommand command = new SqlCommand(@query, db.connection);
+            command.Parameters.AddWithValue("@naam", vaardigheid.Naam);
+            command.ExecuteNonQuery();
+            db.CloseConnetion();
         }
 
         public void Delete(VaardigheidDTO vaardigheid)
@@ -31,13 +31,14 @@ namespace DALMSSQL
             db.CloseConnetion();
         }
 
-        public List<VaardigheidDTO> FindByMedewerker(int id)
+        public List<RatingDTO> FindByMedewerker(int id)
         {
-            List<VaardigheidDTO> vaardigheden = new List<VaardigheidDTO>();
+            List<RatingDTO> ratings = new List<RatingDTO>();
             db.OpenConnection();
-            string query = @"SELECT * FROM Vaardigheid 
-            INNER JOIN MedewerkerVaardigheid on Vaardigheid.Id
-            = @medId";
+            string query = @"Select v.Id , v.Naam , Beschrijving , Score, LaatsteDatum
+                    From MedewerkerVaardigheid mv
+                    INNER JOIN Vaardigheid v on mv.VaardigheidId = v.Id 
+                    WHERE mv.MedewerkerId  = @medId";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@medId", id);
             SqlDataReader reader = command.ExecuteReader();
@@ -45,13 +46,18 @@ namespace DALMSSQL
             {
                 while (reader.Read())
                 {
-                    vaardigheden.Add(new VaardigheidDTO(
-                        reader["Naam"].ToString(),
-                        Convert.ToInt32(reader["Id"])));
+                    ratings.Add(new RatingDTO(
+                        Convert.ToInt32(reader["Score"]),
+                        reader["Beschrijving"].ToString(),
+                        Convert.ToDateTime(reader["LaatsteDatum"]),
+                        new VaardigheidDTO(
+                            reader["Naam"].ToString(),
+                            Convert.ToInt32(reader["Id"])
+                            )));
                 }
             }
             db.CloseConnetion();
-            return vaardigheden;
+            return ratings;
         }
 
         public List<VaardigheidDTO> GetAll()
@@ -77,13 +83,13 @@ namespace DALMSSQL
         {
             VaardigheidDTO dto = null;
             int index = GetAll().FindIndex(x => x.Naam == naam.ToLower());
-            if(index >= 0)
+            if (index >= 0)
             {
                 dto = new VaardigheidDTO(GetAll()[index].Naam, GetAll()[index].Id);
             }
             return dto;
         }
-        
+
         public void Update(VaardigheidDTO vaardigheid)
         {
             db.OpenConnection();
@@ -106,15 +112,15 @@ namespace DALMSSQL
             db.CloseConnetion();
         }
 
-        public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid, RatingDTO rating)
+        public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, RatingDTO rating)
         {
-            if(BestaandeVaardigeheid(vaardigheid.Naam) != null)
+            if (BestaandeVaardigeheid(rating.vaardigheidDTO.Naam) != null)
             {
                 db.OpenConnection();
                 string query = @"INSERT INTO MedewerkerVaardigheid VALUES(@medID,@vaardID,@beschrijving @score ,@laatsteDatum)";
                 SqlCommand command = new SqlCommand(query, db.connection);
                 command.Parameters.AddWithValue("@medID", medewerker.Id);
-                command.Parameters.AddWithValue("@vaardID", BestaandeVaardigeheid(vaardigheid.Naam).Id);
+                command.Parameters.AddWithValue("@vaardID", BestaandeVaardigeheid(rating.vaardigheidDTO.Naam).Id);
                 command.Parameters.AddWithValue("@beschrijving", rating.Beschrijving);
                 command.Parameters.AddWithValue("@score", rating.Score);
                 command.Parameters.AddWithValue("@laatsteDatum", rating.LaatsteDatum);
@@ -122,6 +128,7 @@ namespace DALMSSQL
                 db.CloseConnetion();
             }
         }
+
         public void UpdateRating(RatingDTO rating, VaardigheidDTO vaardigheid)
         {
             db.OpenConnection();

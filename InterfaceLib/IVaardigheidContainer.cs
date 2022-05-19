@@ -12,9 +12,9 @@ namespace InterfaceLib
         public void Delete(VaardigheidDTO vaardigheid);
         public void VerwijderVaarigheidVanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid);
         public void Update(VaardigheidDTO vaardigheid);
-        public List<VaardigheidDTO> FindByMedewerker(int id);
+        public List<RatingDTO> FindByMedewerker(int id);
         public List<VaardigheidDTO> GetAll();
-        public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid, RatingDTO rating);
+        public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, RatingDTO rating);
         public VaardigheidDTO? BestaandeVaardigeheid(string naam);
         public void UpdateRating(RatingDTO rating, VaardigheidDTO vaardigheid);
 

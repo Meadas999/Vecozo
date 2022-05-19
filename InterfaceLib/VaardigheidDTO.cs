@@ -22,5 +22,9 @@ namespace InterfaceLib
         {
             this.Naam = naam;
         }
+        public VaardigheidDTO(VaardigheidVM vaardigheid)
+        {
+            this.Id = id;
+        }
     }
 }

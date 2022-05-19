@@ -10,12 +10,13 @@ namespace BusnLogicVecozo
     public class Medewerker : Gebruiker
     {
         public List<LeidingGevende> LeidingGevenden { get; } = new List<LeidingGevende>();
-        public List<Vaardigheid> Vaardigheden { get; set; } = new List<Vaardigheid>();
+        public List<Rating> Ratings { get; set; } = new List<Rating>();
         public Team? MijnTeam { get; set; }
 
 
-        public Medewerker(string email, string voornaam, string achternaam, int userID, string tussenvoegsel) : base(email,  voornaam, achternaam, userID, tussenvoegsel)
+        public Medewerker(string email, string voornaam, string achternaam, int userID, string tussenvoegsel, List<Rating> ratings) : base(email,  voornaam, achternaam, userID, tussenvoegsel)
         {
+            Ratings = ratings;
         }
 
         public Medewerker(string email, string voornaam, string achternaam, string tussenvoegsel = "") : base(email, voornaam, achternaam, tussenvoegsel)

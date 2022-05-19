@@ -1,4 +1,5 @@
-﻿@model MedewerkerVM
+﻿@using VecozoWeb.Models
+@model MedewerkerVM
 @{
     ViewData["Title"] = "Index";
 }
@@ -30,67 +31,30 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        C#
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
+            @foreach (RatingVM r in Model.Ratings)
+            {
+                <tr>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @r.Vaardigheid.Naam
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @for (int i = 0; i < r.Score; i++)
+                            {
+                                <span class="fa fa-star checked"></span>
+                            }
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @r.Beschrijving
+                        </a>
+                    </td>
+                </tr>
+            }
 
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        twee jaar ervaring
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        JavaScript
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        10 jaar ervaring en 3 jaar gewerkt bij Google
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        SQL
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        5 jaar ervaring
-                </td>
-                </a>
-            </tr>
         </tbody>
     </table>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
