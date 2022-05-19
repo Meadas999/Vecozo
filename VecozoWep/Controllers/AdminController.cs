@@ -1,6 +1,7 @@
 ﻿using BusnLogicVecozo;
 using DALMSSQL;
 using Microsoft.AspNetCore.Mvc;
+using VecozoWeb.Models;
 using VecozoWep.Models;
 
 namespace VecozoWep.Controllers
@@ -17,7 +18,7 @@ namespace VecozoWep.Controllers
             vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
             foreach (MedewerkerVM m in vm.Medewerkers)
             {
-                m.vaardigheden = VC.FindByMedewerker(m.UserID).Select(x => new VaardigheidVM(x)).ToList();
+                m.Ratings = VC.FindByMedewerker(m.UserID).Select(x => new RatingVM(x)).ToList();
                 m.MijnTeam = MC.GetTeamById(m.UserID);
 
             }

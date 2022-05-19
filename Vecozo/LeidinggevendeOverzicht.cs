@@ -12,7 +12,6 @@ namespace VecozoWinForms
 {
     public partial class LeidinggevendeOverzicht : Form
     {
-        Database database = new Database();
         public LeidinggevendeOverzicht()
         {
             InitializeComponent();

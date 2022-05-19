@@ -66,7 +66,9 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"])));
+                        Convert.ToInt32(reader["Id"]),
+                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"]))));
+                    
 
                 }
                 return medewerkers;
@@ -95,7 +97,9 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"])));
+                        Convert.ToInt32(reader["Id"]),
+                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"]))));
+                        
                 }
             }
             db.CloseConnetion();
@@ -116,7 +120,8 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"])));
+                        Convert.ToInt32(reader["Id"]),
+                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"]))));
                 }
             }
             db.CloseConnetion();

@@ -33,7 +33,7 @@ namespace BusnLogicVecozo
 
         public MedewerkerDTO GetDTO()
         {
-            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
+            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID, this.Ratings.Select(x => x.GetDTO()).ToList());
         }
         public override string ToString()
         {
