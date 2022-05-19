@@ -50,5 +50,11 @@ namespace BusnLogicVecozo
             Medewerker medewerker = new Medewerker(dto);
             return medewerker;
         }
+
+        public Team GetTeamById(int userid)
+        {
+            Team team = new(medewerkerContainer.GetTeamById(userid));
+            return team;
+        }
     }
 }

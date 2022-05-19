@@ -11,16 +11,16 @@ namespace InterfaceLib
         public int Id { get; }
         public string Kleur { get; }
         public string Taak { get; }
-        public float GemRating { get; }
+        public double GemRating { get; }
         public List<MedewerkerDTO> GroepLeden { get; } = new List<MedewerkerDTO>();
 
-        public TeamDTO(int id, string kleur, string taak, float gemRating, List<MedewerkerDTO> groepLeden)
+        public TeamDTO(int id, string kleur, string taak, double gemRating /*List<MedewerkerDTO> groepLeden*/)
         {
             Id = id;
             Kleur = kleur;
             Taak = taak;
             GemRating = gemRating;
-            GroepLeden = groepLeden;
+            //GroepLeden = groepLeden;
         }
     }
 }

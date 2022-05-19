@@ -18,7 +18,8 @@ namespace VecozoWep.Controllers
             foreach (MedewerkerVM m in vm.Medewerkers)
             {
                 m.vaardigheden = VC.FindByMedewerker(m.UserID).Select(x => new VaardigheidVM(x)).ToList();
-                    
+                m.MijnTeam = MC.GetTeamById(m.UserID);
+
             }
             return View(vm);
         }

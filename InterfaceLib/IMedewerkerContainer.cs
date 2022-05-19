@@ -14,5 +14,6 @@ namespace InterfaceLib
         public List<MedewerkerDTO> ZoekMedewerkerOpVaardigheid(string naam);
         public List<MedewerkerDTO> HaalAlleMedewerkersOp();
         public MedewerkerDTO FindById(int id);
+        public TeamDTO GetTeamById(int userid);
     }
 }

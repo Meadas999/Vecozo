@@ -5,28 +5,41 @@
 
 <h1>Medewerkers Overzicht</h1>
 <br />
-<input id="myInput" />
-<table class="table table-hover table-borderless table-striped" id="medewerkersTable">
-    <thead>
-        <tr>
-            <th onclick="sortTable(0)" scope="col">Naam</th>
-            <th onclick="sortTable(1)" scope="col">Vaardigheid</th>
-            <th onclick="sortTable(2)" scope="col">Team</th>
-        </tr>
-    </thead>
-    <tbody id="myList">
-        @foreach (MedewerkerVM m in Model.Medewerkers)
-        {
-            foreach (VaardigheidVM v in m.vaardigheden)
+<body>
+    <div>
+    <input id="myInput" />
+    <table class="table table-hover table-borderless table-striped" id="medewerkersTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)" scope="col">Naam</th>
+                <th onclick="sortTable(1)" scope="col">Vaardigheid</th>
+                <th onclick="sortTable(2)" scope="col">Team</th>
+                <th onclick="sortTable(3)" scope="col">Rating</th>
+            </tr>
+        </thead>
+        <tbody id="myList">
+            @foreach (MedewerkerVM m in Model.Medewerkers)
             {
-                <tr>
-                    <td>@m.GetFullName()</td>
-                    <td>@v.Naam</td>
-                    <td></td>
-                </tr>
+                foreach (VaardigheidVM v in m.vaardigheden)
+                {
+                    <tr>
+                        <td>@m.GetFullName()</td>
+                        <td>@v.Naam</td>
+                        <td>@m.MijnTeam.Kleur</td>
+                         for(int i = 0; i < @m.rating.int; i++)
+                         {
+                              <span class="fa fa-star checked"></span>
+                         }
+                    </tr>
+                }
             }
-        }
-        
-    </tbody>
-</table>
+           
+
+        </tbody>
+        </table>
+        </div>
+</body>
+
+
+
 

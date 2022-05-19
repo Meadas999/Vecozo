@@ -12,10 +12,10 @@ namespace BusnLogicVecozo
         public int Id { get; set; }
         public string Kleur { get; }
         public string Taak { get; }
-        public float GemRating { get; }
+        public double GemRating { get; }
         public List<Medewerker> GroepLeden { get; } = new List<Medewerker>();
 
-        public Team(int id, string kleur, string taak, float gemRating)
+        public Team(int id, string kleur, string taak, double gemRating)
         {
             id = Id;
             Kleur = kleur;
@@ -29,7 +29,7 @@ namespace BusnLogicVecozo
             this.Kleur = dto.Kleur;
             this.Taak = dto.Taak;
             this.GemRating = dto.GemRating;
-            this.GroepLeden = dto.GroepLeden.Select(x => new Medewerker(x)).ToList();
+            //this.GroepLeden = dto.GroepLeden.Select(x => new Medewerker(x)).ToList();
 
         }
 

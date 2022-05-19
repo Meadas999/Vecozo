@@ -1,3 +1,4 @@
+
 ﻿using BusnLogicVecozo;
 
 namespace VecozoWep.Models
@@ -38,3 +39,6 @@ namespace VecozoWep.Models
         }
     }
 }
+
+
+

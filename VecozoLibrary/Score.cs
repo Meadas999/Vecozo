@@ -8,10 +8,10 @@ namespace BusnLogicVecozo
 {
     public enum Score
     {
-        Orienterend,
-        Beginnend,
-        Redelijk,
-        Goed,
-        Uitstekend
+        Orienterend = 1,
+        Beginnend = 2,
+        Redelijk = 3,
+        Goed = 4 ,
+        Uitstekend = 5
     }
 }
