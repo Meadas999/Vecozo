@@ -27,6 +27,11 @@ namespace VecozoWeb.Models
             this.LaatsteDatum = rating.LaatsteDatum;
             this.Vaardigheid = new VaardigheidVM(rating.Vaardigheid.Naam,rating.Vaardigheid.Id);
         }
+        public Rating GetRating()
+        {
+            Rating rating = new Rating(Score, Beschrijving, LaatsteDatum, Vaardigheid.GetVaardigheid());
+            return rating;
+        }
         public RatingVM()
         {
 

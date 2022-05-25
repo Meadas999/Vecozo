@@ -1,0 +1,39 @@
+﻿@using VecozoWeb.Models
+@model RatingVM
+
+ <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nieuwe vaardigheid</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <select class="form-select" id="inputGroupSelect01" style="width:auto">
+                            <option value="1">C#</option>
+                            <option value="2">Java</option>
+                            <option value="3">JavaScript</option>
+                            <option value="3">Sql</option>
+                            <option value="3">Asp.net</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="input-1" class="control-label">Score</label>
+                        <input äsp-for= id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="1" data-size="sm">
+
+                    </div>
+                    <div class="form-floating mb-6">
+                        <input type="email" class="form-control" id="floatingInput" style="width:auto;">
+                        <label for="floatingInput">Beschrijving</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
