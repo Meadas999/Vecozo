@@ -19,8 +19,16 @@ namespace BusnLogicVecozo
         public Medewerker Inloggen(string email, string wachtwoord)
         {
             MedewerkerDTO dto = medewerkerContainer.Inloggen(email, wachtwoord);
-            Medewerker medewerker = new Medewerker(dto);
-            return medewerker;
+            if (dto != null)
+            {
+                Medewerker medewerker = new Medewerker(dto);
+                return medewerker;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
         public List<Medewerker> ZoekMedewerkerOpVaardigheid(string naam)
         {

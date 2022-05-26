@@ -10,8 +10,8 @@ namespace VecozoWep.Models
         public string? Tussenvoegsel { get; private set; }
         public string Achternaam { get; private set; }
         public int UserID { get; private set; }
-        public Team? MijnTeam { get; set; }
-        public List<RatingVM> Ratings { get; set; }
+        public Team? MijnTeam { get; set; } = null;
+        public List<RatingVM> Ratings { get; set; } = null;
 
         public MedewerkerVM(string voornaam, string? tussenvoegsel, string achternaam, int userID, Team? mijnTeam, List<RatingVM> ratings)
         {

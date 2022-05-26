@@ -11,5 +11,6 @@ namespace InterfaceLib
         public void Create(LeidingGevendeDTO medewerker, string newWachtwoord);
         public void UpdateMedewerker(MedewerkerDTO dto);
         public LeidingGevendeDTO? Inloggen(string email, string wachtwoord);
+        public LeidingGevendeDTO? FindById(int id);
     }
 }

@@ -11,12 +11,12 @@ namespace DALMSSQL
     public class LeidinggevendenDAL : ILeidinggevendeContainer
     {
         ConnectionDb db = new ConnectionDb();
-
+        MedewerkerDAL md = new();
         public void Create(LeidingGevendeDTO dto, string newWachtwoord)
         {
             string wachtwoordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(newWachtwoord, 13);
             db.OpenConnection();
-            string query = @"INSERT INTO Leidinggevende (Voornaam, Tussenvoegsel, Achternaam, Email, Wachtwoord)
+            string query = @"INSERT INTO Leidinggevenden (Voornaam, Tussenvoegsel, Achternaam, Email, Wachtwoord)
             VALUES (@Voornaam, @Tussenvoegsel, @Achternaam, @Email, @Wachtwoord)";
             SqlCommand cmd = new SqlCommand(query, db.connection);
             cmd.Parameters.AddWithValue("@Voornaam", dto.Voornaam);
@@ -30,31 +30,31 @@ namespace DALMSSQL
 
         public LeidingGevendeDTO? Inloggen(string email, string wachtwoord)
         {
+            bool isValid = false;
             db.OpenConnection();
-            LeidingGevendeDTO dto = null;
-            string query = @"SELECT * FROM Leidinggevende WHERE Email = @email";
+            LeidingGevendeDTO med = null;
+            string query = @"SELECT Wachtwoord, Id FROM Leidinggevenden WHERE Email = @email";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@email", email);
             SqlDataReader reader = command.ExecuteReader();
-            if(reader.HasRows)
+            if (reader.HasRows)
             {
-                bool correct = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord,reader["Wachtwoord"].ToString());
-                if(correct)
+                while (reader.Read())
                 {
-                    while(reader.Read())
-                    {
-                        dto = new LeidingGevendeDTO(
-                            reader["Email"].ToString(),
-                            reader["Wachtwoord"].ToString(),
-                            reader["Voornaam"].ToString(),
-                            reader["Tussenvoegsel"].ToString(),
-                            reader["Achternaam"].ToString(),
-                            Convert.ToInt32(reader["Id"]));
-                    }
+                    med = new LeidingGevendeDTO(
+                    reader["Wachtwoord"].ToString(),
+                    Convert.ToInt32(reader["Id"]));
+                    
                 }
+                db.CloseConnetion();
+                isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.Wachtwoord);
             }
-            db.CloseConnetion();
-            return dto;
+
+            if (isValid)
+            {
+                return FindById(med.UserID);
+            }
+            return null;
         }
 
         public void UpdateMedewerker(MedewerkerDTO dto)
@@ -63,7 +63,7 @@ namespace DALMSSQL
             string query = @"UPDATE Medewerker SET Email = @email, 
             Voornaam = @voornaam, Tussenvoegsel = @tussenvoegsel, Achternaam = @achternaam 
             WHERE Id = @id";
-            SqlCommand command = new SqlCommand(query,db.connection);
+            SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@voornaam", dto.Voornaam);
             command.Parameters.AddWithValue("@tussenvoegsel", dto.Tussenvoegsel);
             command.Parameters.AddWithValue("@achternaam", dto.Achternaam);
@@ -71,5 +71,31 @@ namespace DALMSSQL
             command.ExecuteNonQuery();
             db.CloseConnetion();
         }
+        public LeidingGevendeDTO? FindById(int id)
+        {
+            LeidingGevendeDTO? admin = null;
+            db.OpenConnection();
+            string query = @"SELECT * FROM Leidinggevenden WHERE Id = @id";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@id", id);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    admin = new LeidingGevendeDTO(
+                        reader["Email"].ToString(),
+                        reader["Voornaam"].ToString(),
+                        reader["Achternaam"].ToString(),
+                        Convert.ToInt32(reader["Id"]),
+                        md.HaalAlleMedewerkersOp(),
+                        reader["Tussenvoegsel"].ToString());
+                         
+                }
+            }
+            db.CloseConnetion();
+            return admin;
+        }
+
     }
 }

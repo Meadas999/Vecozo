@@ -18,12 +18,12 @@ namespace VecozoWep.Models
             UserID = userID;
         }
 
-        public LeidinggevendenVM(Medewerker medewerker)
+        public LeidinggevendenVM(LeidingGevende admin)
         {
-            Voornaam = medewerker.Voornaam;
-            Tussenvoegsel = medewerker.Tussenvoegsel;
-            Achternaam = medewerker.Achternaam;
-            UserID = medewerker.UserID;
+            Voornaam = admin.Voornaam;
+            Tussenvoegsel = admin.Tussenvoegsel;
+            Achternaam = admin.Achternaam;
+            UserID = admin.UserID;
         }
 
         public LeidinggevendenVM()

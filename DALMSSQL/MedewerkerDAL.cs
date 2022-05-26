@@ -141,15 +141,16 @@ namespace DALMSSQL
                 {
                     medewerker = new MedewerkerDTO(
                         reader["Email"].ToString(),
-                        reader["Voornaam"].ToString(),
-                        reader["Achternaam"].ToString(),
+                        reader["Voornaam"].ToString(), 
                         reader["Tussenvoegsel"].ToString(),
+                        reader["Achternaam"].ToString(),
                         Convert.ToInt32(reader["Id"]),
                         vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"])));
                 }
             }
             db.CloseConnetion();
             return medewerker;
+            
         }
 
         public TeamDTO GetTeamById(int userid)

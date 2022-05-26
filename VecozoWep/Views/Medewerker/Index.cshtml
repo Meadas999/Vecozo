@@ -15,28 +15,31 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (RatingVM r in Model.Ratings)
+            @if (Model.Ratings != null)
             {
-                <tr>
-                    <td>
-                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                            @r.Vaardigheid.Naam
-                        </a>
-                    </td>
-                    <td>
-                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                            @for (int i = 0; i < r.Score; i++)
-                            {
-                                <span class="fa fa-star checked"></span>
-                            }
-                        </a>
-                    </td>
-                    <td>
-                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                            @r.Beschrijving
-                        </a>
-                    </td>
-                </tr>
+                @foreach (RatingVM r in Model.Ratings)
+                {
+                    <tr>
+                        <td>
+                            <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                                @r.Vaardigheid.Naam
+                            </a>
+                        </td>
+                        <td>
+                            <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                                @for (int i = 0; i < r.Score; i++)
+                                {
+                                    <span class="fa fa-star checked"></span>
+                                }
+                            </a>
+                        </td>
+                        <td>
+                            <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                                @r.Beschrijving
+                            </a>
+                        </td>
+                    </tr>
+                }
             }
 
         </tbody>

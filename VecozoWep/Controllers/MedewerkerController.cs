@@ -19,7 +19,7 @@ namespace VecozoWep.Controllers
                 MedewerkerVM vm = new(med);
                 return View(vm);
             }
-            return RedirectToAction("LogIn","Login");
+            return RedirectToAction("Index","Login");
         }
 
         public IActionResult VaardigheidToevoegen()

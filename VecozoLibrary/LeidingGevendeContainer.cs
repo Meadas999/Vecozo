@@ -28,6 +28,20 @@ namespace BusnLogicVecozo
         public LeidingGevende? Inloggen(string email, string wachtwoord)
         {
             LeidingGevendeDTO dto = leidinggevendeContainer.Inloggen(email, wachtwoord);
+            if (dto != null)
+            {
+                LeidingGevende leid = new LeidingGevende(dto);
+                return leid;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+        public LeidingGevende? GetLeidingGevendeById(int id)
+        {
+            LeidingGevendeDTO dto = leidinggevendeContainer.FindById(id);
             LeidingGevende leid = new LeidingGevende(dto);
             return leid;
         }
