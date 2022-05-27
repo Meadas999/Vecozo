@@ -18,7 +18,7 @@ namespace BusnLogicVecozo
 
         public LeidingGevende(LeidingGevendeDTO dto) : base(dto.Email, dto.Voornaam, dto.Achternaam, dto.UserID, dto.Tussenvoegsel)
         {
-            Medewerkers = dto.Medewerkers.Select(m => new Medewerker(m)).ToList();
+            //Medewerkers = dto.Medewerkers.Select(m => new Medewerker(m)).ToList();
         }
         
         public LeidingGevendeDTO GetDTO()

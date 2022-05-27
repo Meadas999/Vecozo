@@ -17,7 +17,7 @@ namespace BusnLogicVecozo
 
         public Team(int id, string kleur, string taak, double gemRating)
         {
-            id = Id;
+            Id = id;
             Kleur = kleur;
             Taak = taak;
             GemRating = gemRating;
@@ -30,10 +30,14 @@ namespace BusnLogicVecozo
             this.Taak = dto.Taak;
             this.GemRating = dto.GemRating;
             //this.GroepLeden = dto.GroepLeden.Select(x => new Medewerker(x)).ToList();
-
         }
 
-
+        public TeamDTO GetDTO()
+        {
+            TeamDTO dto = new TeamDTO(Id,Kleur,Taak,GemRating);
+            return dto;
+        }
+        
         public override string ToString()
         {
             return $"Teamkleur: {this.Kleur}\nTaak: {this.Taak}";

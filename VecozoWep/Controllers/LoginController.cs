@@ -1,6 +1,9 @@
 ﻿using BusnLogicVecozo;
 using DALMSSQL;
+using DALMSSQL.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using VecozoWeb.Models;
 using VecozoWep.Models;
 
 namespace VecozoWep.Controllers
@@ -9,21 +12,29 @@ namespace VecozoWep.Controllers
     {
         private MedewerkerContainer MC = new(new MedewerkerDAL());
         private LeidingGevendeContainer LC = new(new LeidinggevendenDAL());
+        private TeamContainer TC = new(new TeamDAL());
+        
         public IActionResult Index()
         {
             InlogVM vm = new();
             return View(vm);
         }
+        
         public IActionResult LogIn(InlogVM vm)
         {
             LeidingGevende admin = LC.Inloggen(vm.Email, vm.Password);
             Medewerker user = MC.Inloggen(vm.Email, vm.Password);
             if (admin != null)
             {
-                
-                LeidinggevendenVM lvm = new(admin);
-                HttpContext.Session.SetInt32("UserId", lvm.UserID);
-                return RedirectToAction("Index","Admin");
+                MedewerkerVM mvm = new(user);
+                HttpContext.Session.SetInt32("UserId", mvm.UserID);
+                return RedirectToAction("Index", "Medewerker");
+            }
+            else if(LC.Inloggen(vm.Email,vm.Password) != null)
+            {
+                LeidingGevende lg = LC.Inloggen(vm.Email, vm.Password);
+                HttpContext.Session.SetInt32("UserId", lg.UserID);
+                return RedirectToAction("Index", "Admin");
             }
             else if (user != null)
             {
@@ -39,9 +50,37 @@ namespace VecozoWep.Controllers
                 return View("Index",newvm);
             }
         }
+        
         public IActionResult Register()
         {
-            return View();
+            GebruikersVM vm = new();
+            vm.Leidinggevenden = LC.HaalAlleLeidinggevendeOp().Select(x => new LeidinggevendenVM(x)).ToList();
+            vm.Teams = TC.GetAll().Select(x => new TeamVM(x)).ToList();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Register(GebruikersVM vm)
+        {
+            Medewerker med = new(vm.Medewerker.Email, vm.Medewerker.Voornaam, vm.Medewerker.Achternaam,vm.Medewerker.Tussenvoegsel);
+            if (vm.Medewerker.IsAdmin)
+            {
+                LeidingGevende l = new(med.Email, med.Voornaam, med.Achternaam,0,med.Tussenvoegsel);
+                LC.Create(l, vm.Medewerker.Wachtwoord);
+                LeidingGevende leid = LC.Inloggen(l.Email, vm.Medewerker.Wachtwoord);
+                HttpContext.Session.SetInt32("UserId", leid.UserID);
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                med.MijnTeam = TC.FindById(vm.Team.Id);
+                MC.Create(med, vm.Medewerker.Wachtwoord);
+                LeidingGevende leid = LC.FindById(vm.Leidinggevende.UserID);
+                Medewerker medewerker = MC.Inloggen(med.Email, vm.Medewerker.Wachtwoord);
+                MC.KoppelMedewerkerAanLeidinggevenden(medewerker, leid);
+                HttpContext.Session.SetInt32("UserId", medewerker.UserID);
+                return RedirectToAction("Index", "Medewerker");
+            }
         }
     }
 }

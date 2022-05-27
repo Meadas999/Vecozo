@@ -14,8 +14,8 @@ namespace VecozoWep.Controllers
         {
             if(HttpContext.Session.GetInt32("UserId") != null)
             {
-                int? id = HttpContext.Session.GetInt32("UserId");
-                Medewerker med = MC.FindById((int)id);
+                int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
+                Medewerker med = MC.FindById(id);
                 MedewerkerVM vm = new(med);
                 return View(vm);
             }

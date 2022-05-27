@@ -15,21 +15,23 @@ namespace BusnLogicVecozo
         {
             this.medewerkerContainer = medewerkerContainer;
         }
-        
-        public Medewerker Inloggen(string email, string wachtwoord)
+
+        public void Create(Medewerker medewerker,string wachtwoord)
         {
-            MedewerkerDTO dto = medewerkerContainer.Inloggen(email, wachtwoord);
+            medewerkerContainer.Create(medewerker.GetDTO(),wachtwoord);
+        }
+        
+        public Medewerker? Inloggen(string email, string wachtwoord)
+        {
+            MedewerkerDTO? dto = medewerkerContainer.Inloggen(email, wachtwoord);
             if (dto != null)
             {
                 Medewerker medewerker = new Medewerker(dto);
                 return medewerker;
             }
-            else
-            {
-                return null;
-            }
-            
+            return null;
         }
+        
         public List<Medewerker> ZoekMedewerkerOpVaardigheid(string naam)
         {
             List<MedewerkerDTO> dtos = medewerkerContainer.ZoekMedewerkerOpVaardigheid(naam);
@@ -47,6 +49,7 @@ namespace BusnLogicVecozo
             List<Medewerker> medewerkers = new List<Medewerker>();
             foreach (MedewerkerDTO dto in dtos)
             {
+                dto.MijnTeam = medewerkerContainer.GetTeamVanMedewerker(dto);
                 Medewerker medewerker = new Medewerker(dto);
                 medewerkers.Add(medewerker);
             }
@@ -55,14 +58,15 @@ namespace BusnLogicVecozo
         public Medewerker FindById(int id)
         {
             MedewerkerDTO dto = medewerkerContainer.FindById(id);
+            dto.MijnTeam = medewerkerContainer.GetTeamVanMedewerker(dto);
             Medewerker medewerker = new Medewerker(dto);
             return medewerker;
         }
 
-        public Team GetTeamById(int userid)
+        public void KoppelMedewerkerAanLeidinggevenden(Medewerker med, LeidingGevende leid)
         {
-            Team team = new(medewerkerContainer.GetTeamById(userid));
-            return team;
+            medewerkerContainer.KoppelMedewerkerAanLeidinggevenden(med.GetDTO(), leid.GetDTO());
         }
+
     }
 }

@@ -4,11 +4,12 @@ namespace VecozoWep.Models
 {
     public class LeidinggevendenVM
     {
-        public string Voornaam { get; private set; }
-        public string? Tussenvoegsel { get; private set; }
-        public string Achternaam { get; private set; }
-        public int UserID { get; private set; }
+        public string Voornaam { get; set; }
+        public string? Tussenvoegsel { get; set; }
+        public string Achternaam { get;  set; }
+        public int UserID { get; set; }
         public List<MedewerkerVM> Medewerkers { get; set; }
+        public bool IsAdmin { get; set; }
 
         public LeidinggevendenVM(string voornaam, string? tussenvoegsel, string achternaam, int userID)
         {
@@ -18,17 +19,37 @@ namespace VecozoWep.Models
             UserID = userID;
         }
 
-        public LeidinggevendenVM(LeidingGevende admin)
+        public LeidinggevendenVM(string voornaam, string? tussenvoegsel, string achternaam, bool isAdmin)
+        {
+            Voornaam = voornaam;
+            Tussenvoegsel = tussenvoegsel;
+            Achternaam = achternaam;
+            IsAdmin = isAdmin;
+        }
+        
+        public LeidinggevendenVM(LeidingGevende medewerker)
+        {
+            Voornaam = medewerker.Voornaam;
+            Tussenvoegsel = medewerker.Tussenvoegsel;
+            Achternaam = medewerker.Achternaam;
+            UserID = medewerker.UserID;
+        }
+
+        public LeidinggevendenVM(Medewerker medewerker)
         {
             Voornaam = admin.Voornaam;
             Tussenvoegsel = admin.Tussenvoegsel;
             Achternaam = admin.Achternaam;
             UserID = admin.UserID;
         }
-
         public LeidinggevendenVM()
         {
 
+        }
+        
+        public override string ToString()
+        {
+            return $"{Voornaam} {Tussenvoegsel} {Achternaam}";
         }
     }
 }

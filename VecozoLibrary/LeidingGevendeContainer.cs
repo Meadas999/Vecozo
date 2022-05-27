@@ -27,23 +27,24 @@ namespace BusnLogicVecozo
         }
         public LeidingGevende? Inloggen(string email, string wachtwoord)
         {
-            LeidingGevendeDTO dto = leidinggevendeContainer.Inloggen(email, wachtwoord);
-            if (dto != null)
+            LeidingGevendeDTO? dto = leidinggevendeContainer.Inloggen(email, wachtwoord);
+            if(dto != null)
             {
                 LeidingGevende leid = new LeidingGevende(dto);
                 return leid;
             }
-            else
-            {
-                return null;
-            }
-            
+            return null;
         }
-        public LeidingGevende? GetLeidingGevendeById(int id)
+
+        public List<LeidingGevende> HaalAlleLeidinggevendeOp()
         {
-            LeidingGevendeDTO dto = leidinggevendeContainer.FindById(id);
-            LeidingGevende leid = new LeidingGevende(dto);
-            return leid;
+            return leidinggevendeContainer.HaalAlleLeidinggevenedeOp().Select(x => new LeidingGevende(x)).ToList();
         }
+
+        public LeidingGevende FindById(int id)
+        {
+            return new LeidingGevende(leidinggevendeContainer.FindById(id));
+        }
+
     }
 }

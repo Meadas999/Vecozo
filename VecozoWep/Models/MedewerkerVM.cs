@@ -1,26 +1,43 @@
-
 ﻿using BusnLogicVecozo;
+using System.ComponentModel.DataAnnotations;
 using VecozoWeb.Models;
 
 namespace VecozoWep.Models
 {
     public class MedewerkerVM
     {
-        public string Voornaam { get; private set; }
-        public string? Tussenvoegsel { get; private set; }
-        public string Achternaam { get; private set; }
-        public int UserID { get; private set; }
-        public Team? MijnTeam { get; set; } = null;
-        public List<RatingVM> Ratings { get; set; } = null;
+        [Required]
+        public string Voornaam { get; set; }
+        public string? Tussenvoegsel { get; set; }
+        [Required]
+        public string Achternaam { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Wachtwoord { get; set; }
+        public int UserID { get; set; }
+        public TeamVM? MijnTeam { get; set; } = new();
+        public List<VaardigheidVM> vaardigheden { get; set; }
+        public LeidinggevendenVM Leidinggevende { get; set; }
+        public bool IsAdmin { get; set; }
 
-        public MedewerkerVM(string voornaam, string? tussenvoegsel, string achternaam, int userID, Team? mijnTeam, List<RatingVM> ratings)
+        public MedewerkerVM(string voornaam, string? tussenvoegsel, string achternaam, int userID, TeamVM? mijnTeam)
         {
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
             Achternaam = achternaam;
             UserID = userID;
             MijnTeam = mijnTeam;
-            Ratings = ratings;
+        }
+
+        public MedewerkerVM(string email,string wachtwoord,string voornaam, string? tussenvoegsel, string achternaam,bool isAdmin)
+        {
+            Voornaam = voornaam;
+            Tussenvoegsel = tussenvoegsel;
+            Achternaam = achternaam;
+            Email = email;
+            Wachtwoord = wachtwoord;
+            IsAdmin = isAdmin;
         }
         public MedewerkerVM(Medewerker medewerker)
         {
@@ -28,19 +45,9 @@ namespace VecozoWep.Models
             Tussenvoegsel = medewerker.Tussenvoegsel;
             Achternaam = medewerker.Achternaam;
             UserID = medewerker.UserID;
-            MijnTeam = medewerker.MijnTeam;
+            MijnTeam = new (medewerker.MijnTeam);
         }
         public MedewerkerVM()
         {
-
-        }
-
-        public string GetFullName()
-        {
-            return $"{Voornaam} {Tussenvoegsel} {Achternaam}";
-        }
-    }
-}
-
 
 

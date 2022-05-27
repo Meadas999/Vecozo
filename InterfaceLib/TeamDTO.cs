@@ -22,5 +22,13 @@ namespace InterfaceLib
             GemRating = gemRating;
             //GroepLeden = groepLeden;
         }
+
+        public TeamDTO(int id, string kleur, string taak, float gemRating)
+        {
+            Id = id;
+            Kleur = kleur;
+            Taak = taak;
+            GemRating = gemRating;
+        }
     }
 }

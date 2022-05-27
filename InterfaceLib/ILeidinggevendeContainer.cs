@@ -12,5 +12,7 @@ namespace InterfaceLib
         public void UpdateMedewerker(MedewerkerDTO dto);
         public LeidingGevendeDTO? Inloggen(string email, string wachtwoord);
         public LeidingGevendeDTO? FindById(int id);
+
+        public List<LeidingGevendeDTO> HaalAlleLeidinggevenedeOp();
     }
 }

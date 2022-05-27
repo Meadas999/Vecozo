@@ -10,20 +10,22 @@ namespace VecozoWep.Controllers
     {
         private LeidingGevendeContainer LC = new(new LeidinggevendenDAL());
         private MedewerkerContainer MC = new(new MedewerkerDAL());
+        private LeidingGevendeContainer LC = new(new LeidinggevendenDAL());
         private VaardigheidContainer VC = new(new VaardigheidDAL());
         public IActionResult Index()
         {
-            int? id = HttpContext.Session.GetInt32("UserId");
-            if (id == null) return RedirectToAction("Login", "User");
-            LeidinggevendenVM vm = new(LC.GetLeidingGevendeById(id.Value));
-            vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
-            foreach (MedewerkerVM m in vm.Medewerkers)
+            if (HttpContext.Session.GetInt32("UserId") != null)
             {
-                m.Ratings = VC.FindByMedewerker(m.UserID).Select(x => new RatingVM(x)).ToList();
-                m.MijnTeam = MC.GetTeamById(m.UserID);
-
+                int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
+                LeidinggevendenVM vm = new(LC.FindById(id));
+                vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
+                foreach (MedewerkerVM m in vm.Medewerkers)
+                {
+                    m.vaardigheden = VC.FindByMedewerker(m.UserID).Select(x => new VaardigheidVM(x)).ToList();
+                }
+                return View(vm);
             }
-            return View(vm);
+            return RedirectToAction("Index", "Login");   
         }
 
         

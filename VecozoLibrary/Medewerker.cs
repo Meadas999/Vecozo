@@ -24,17 +24,16 @@ namespace BusnLogicVecozo
         }
         public Medewerker(MedewerkerDTO dto) : base(dto.Email, dto.Voornaam, dto.Achternaam, dto.Id, dto.Tussenvoegsel)
         {
-
-
             //Vaardigheden = dto.Vaardigheden.Select(x => new Vaardigheid(x)).ToList();
             //LeidingGevenden = dto.LeidingGevenden.Select(x => new LeidingGevende(x)).ToList();
-            //MijnTeam = new(dto.MijnTeam);
+            MijnTeam = new(dto.MijnTeam);
         }
-
+        
         public MedewerkerDTO GetDTO()
         {
-            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID, this.Ratings.Select(x => x.GetDTO()).ToList());
+            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID, this.MijnTeam.GetDTO());
         }
+        
         public override string ToString()
         {
             return base.ToString();

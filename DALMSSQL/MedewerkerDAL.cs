@@ -43,10 +43,11 @@ namespace DALMSSQL
                 }
                 db.CloseConnetion();
             }
-           
             if (isValid)
             { 
-                return FindById(med.Id);
+                MedewerkerDTO dto = FindById(med.Id);
+                dto.MijnTeam = GetTeamVanMedewerker(dto);
+                return dto;
             }
             return null;
         }
@@ -193,6 +194,41 @@ namespace DALMSSQL
             }
             db.CloseConnetion();
             return -1;
+        }
+
+        public void KoppelMedewerkerAanLeidinggevenden(MedewerkerDTO med,LeidingGevendeDTO leid)
+        {
+            db.OpenConnection();
+            string query = @"INSERT INTO LeidinggevendeMedewerker VALUES (@leidId,@medId)";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@leidId", leid.UserID);
+            command.Parameters.AddWithValue("@medId", med.Id);
+            command.ExecuteNonQuery();
+            db.CloseConnetion();
+        }
+
+        public TeamDTO? GetTeamVanMedewerker(MedewerkerDTO dto)
+        {
+            TeamDTO? team = null;
+            db.OpenConnection();
+            string query = @"SELECT * FROM Team T 
+            INNER JOIN Medewerker M ON M.TeamId = T.Id WHERE M.Id = @id";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@id", dto.Id);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    team = new TeamDTO(
+                    Convert.ToInt32(reader["Id"]),
+                    reader["TeamKleur"].ToString(),
+                    reader["Taak"].ToString(),
+                    (float)Convert.ToDouble(reader["Gem_Rating"]));
+                }
+            }
+            db.CloseConnetion();
+            return team;
         }
     }
 }

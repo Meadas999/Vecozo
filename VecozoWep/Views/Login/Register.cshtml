@@ -1,7 +1,51 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using VecozoWeb.Models
+@model GebruikersVM
+@{
     ViewData["Title"] = "Register";
 }
+<head>
+    <script type="text/javascript">
+        function Update(){
+            var select = document.getElementById('admin');
+            var option = select.options[select.selectedIndex];
+            document.getElementById('text').value = option.text;
+            document.getElementById('textID').value = option.value;
+        }
 
+        function UpdateTeam(){
+            var select = document.getElementById('team');
+            var option = select.options[select.selectedIndex];
+            document.getElementById('mijnTeam').value = option.text;
+            document.getElementById('teamID').value = option.value;
+        }
+
+        function GetRadioButtonChecked(){
+            var rbtnAdmin = document.getElementById('Admin');
+            var rbtnMedewerker = document.getElementById('Medewerker');
+            if(rbtnAdmin.checked)
+            {
+                return "True";
+            }
+            else
+            {
+                return "False";
+            }
+        }
+
+        function HideAdmins(){
+            if(document.getElementById('Admin').checked)
+            {
+                document.getElementById('adminPanel').style.visibility = 'hidden'
+            }
+            else
+            {
+                document.getElementById('adminPanel').style.visibility = 'visible'
+            }
+        }
+    </script>
+</head>
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
         <div class="row justify-content-center align-items-center h-100">
@@ -9,29 +53,26 @@
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Account maken</h3>
-                        <form>
+                        <form asp-action="Register" asp-method="post">
                             <div class="row">
                                 <div class="col-md-4 mb-4">
-
                                     <div class="form-outline">
-                                        <input type="text" id="firstName" class="form-control form-control-lg" />
-                                        <label class="form-label" for="firstName">Voornaam</label>
+                                        <input type="text" id="firstName" class="form-control form-control-lg" asp-for="@Model.Medewerker.Voornaam" />
+                                        <label class="form-label" asp-for="@Model.Medewerker.Voornaam">Voornaam</label>
                                     </div>
 
                                 </div>
                                 <div class="col-md-4 mb-4">
-
                                     <div class="form-outline">
-                                        <input type="text" id="tussenvoegsel" class="form-control form-control-lg" />
-                                        <label class="form-label" for="tussenvoegsel">Tussenvoegsel</label>
+                                        <input type="text" id="tussenvoegsel" class="form-control form-control-lg" asp-for="@Model.Medewerker.Tussenvoegsel" />
+                                        <label class="form-label" asp-for="@Model.Medewerker.Tussenvoegsel">Tussenvoegsel</label>
                                     </div>
 
                                 </div>
                                 <div class="col-md-4 mb-4">
-
                                     <div class="form-outline">
-                                        <input type="text" id="lastName" class="form-control form-control-lg" />
-                                        <label class="form-label" for="lastName">Achternaam</label>
+                                        <input type="text" id="lastName" class="form-control form-control-lg" asp-for="@Model.Medewerker.Achternaam" />
+                                        <label class="form-label" asp-for="@Model.Medewerker.Achternaam">Achternaam</label>
                                     </div>
 
                                 </div>
@@ -39,51 +80,63 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4 pb-2">
                                     <div class="form-outline">
-                                        <input type="email" id="emailAddress" class="form-control form-control-lg" />
-                                        <label class="form-label" for="emailAddress">Email</label>
+                                        <input type="email" id="emailAddress" class="form-control form-control-lg" asp-for="@Model.Medewerker.Email" />
+                                        <label class="form-label" asp-for="@Model.Medewerker.Email">Email</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4 pb-2">
-
                                     <div class="form-outline">
-                                        <input type="tel" id="wachtwoord" class="form-control form-control-lg" />
+                                        <input type="password" id="wachtwoord" class="form-control form-control-lg" asp-for="@Model.Medewerker.Wachtwoord" />
                                         <label class="form-label" for="wachtwoord">Wachtwoord</label>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-8">
-                                    <select class="select form-control-sm">
-                                        <option value="1" disabled>Leidinggevend</option>
-                                        <option value="2">Leidinggevend 1</option>
-                                        <option value="3">Leidinggevend 2</option>
-                                        <option value="4">Leidinggevend 3</option>
+                                <div class="col-8" id="adminPanel">
+                                    <select id="admin" class="select form-control-sm" onchange="Update()">
+                                        <option value="1" disabled>Leidinggevende</option>
+                                        @foreach (var leid in Model.Leidinggevenden)
+                                        {
+                                            <option value="@leid.UserID">@leid.ToString()</option>
+                                        }
                                     </select>
-                                    <label class="form-label select-label">Leidinggevend</label>
+                                    <label class="form-label select-label">Leidinggevende</label>
+                                    <div class="col-md-6 mb-4 pb-2">
+                                        <div class="form-outline">
+                                            <input id="text" class="form-control form-control-lg" onfocus="$(this).blur()" />
+                                            <input type="hidden" asp-for="@Model.Leidinggevende.UserID" id="textID" class="form-control form-control-lg" />
+                                            <input type="hidden" asp-for="@Model.Medewerker.IsAdmin" id="textAdmin" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+                                    <select id="team" class="select form-control-sm" onchange="UpdateTeam()">
+                                        <option value="1" disabled>Teams</option>
+                                        @foreach (var team in Model.Teams)
+                                        {
+                                            <option value="@team.Id">@team.ToString()</option>
+                                        }
+                                    </select>
+                                    <div class="form-outline">
+                                        <input id="mijnTeam" class="form-control form-control-lg" onfocus="$(this).blur()" />
+                                        <input type="hidden" asp-for="@Model.Team.Id" id="teamID" class="form-control form-control-lg" />
+                                    </div>
                                 </div>
-                                <div class="col-md-6 mb-4">
-
+                                <div class="col-md-6 mb-4" onchange="document.getElementById('textAdmin').value = GetRadioButtonChecked();HideAdmins();">
                                     <h6 class="mb-2 pb-1">Rol: </h6>
-
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Admin"
-                                               value="option1" checked />
+                                               value="option1" />
                                         <label class="form-check-label" for="Admin">Admin</label>
                                     </div>
-
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Medewerker"
-                                               value="option2" />
+                                               value="option2" checked />
                                         <label class="form-check-label" for="Medewerker">Medewerker</label>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="mt-4 pt-2">
                                 <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
                             </div>
-
                         </form>
                     </div>
                 </div>

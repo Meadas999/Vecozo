@@ -28,12 +28,54 @@ namespace DALMSSQL
             db.CloseConnetion();
         }
 
+        public LeidingGevendeDTO? FindById(int id)
+        {
+            db.OpenConnection();
+            LeidingGevendeDTO? dto = null;
+            string query = @"SELECT * FROM Leidinggevenden WHERE Id = @Id";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@Id", id);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                dto = new LeidingGevendeDTO(
+                    reader["Email"].ToString(),
+                    reader["Wachtwoord"].ToString(),
+                    reader["Voornaam"].ToString(),
+                    reader["Tussenvoegsel"].ToString(),
+                    reader["Achternaam"].ToString(),
+                    Convert.ToInt32(reader["Id"]));
+            }
+            db.CloseConnetion();
+            return dto;
+        }
+
+        public List<LeidingGevendeDTO> HaalAlleLeidinggevenedeOp()
+        {
+            List<LeidingGevendeDTO> dtos = new();
+            db.OpenConnection();
+            string query = @"SELECT * FROM Leidinggevenden";
+            SqlCommand cmd = new SqlCommand(query, db.connection);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                dtos.Add(new LeidingGevendeDTO(
+                reader["Email"].ToString(),
+                reader["Voornaam"].ToString(),
+                reader["Tussenvoegsel"].ToString(),
+                reader["Achternaam"].ToString(),
+                Convert.ToInt32(reader["Id"])));
+            }
+            db.CloseConnetion();
+            return dtos;
+        }
+
         public LeidingGevendeDTO? Inloggen(string email, string wachtwoord)
         {
             bool isValid = false;
             db.OpenConnection();
-            LeidingGevendeDTO med = null;
-            string query = @"SELECT Wachtwoord, Id FROM Leidinggevenden WHERE Email = @email";
+            LeidingGevendeDTO dto = null;
+            string query = @"SELECT * FROM Leidinggevenden WHERE Email = @email";
             SqlCommand command = new SqlCommand(query, db.connection);
             command.Parameters.AddWithValue("@email", email);
             SqlDataReader reader = command.ExecuteReader();
@@ -41,10 +83,17 @@ namespace DALMSSQL
             {
                 while (reader.Read())
                 {
-                    med = new LeidingGevendeDTO(
-                    reader["Wachtwoord"].ToString(),
-                    Convert.ToInt32(reader["Id"]));
-                    
+                    bool correct = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, reader["Wachtwoord"].ToString());
+                    if (correct)
+                    {
+                        dto = new LeidingGevendeDTO(
+                        reader["Email"].ToString(),
+                        reader["Wachtwoord"].ToString(),
+                        reader["Voornaam"].ToString(),
+                        reader["Tussenvoegsel"].ToString(),
+                        reader["Achternaam"].ToString(),
+                        Convert.ToInt32(reader["Id"]));
+                    }
                 }
                 db.CloseConnetion();
                 isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.Wachtwoord);
@@ -71,31 +120,7 @@ namespace DALMSSQL
             command.ExecuteNonQuery();
             db.CloseConnetion();
         }
-        public LeidingGevendeDTO? FindById(int id)
-        {
-            LeidingGevendeDTO? admin = null;
-            db.OpenConnection();
-            string query = @"SELECT * FROM Leidinggevenden WHERE Id = @id";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    admin = new LeidingGevendeDTO(
-                        reader["Email"].ToString(),
-                        reader["Voornaam"].ToString(),
-                        reader["Achternaam"].ToString(),
-                        Convert.ToInt32(reader["Id"]),
-                        md.HaalAlleMedewerkersOp(),
-                        reader["Tussenvoegsel"].ToString());
-                         
-                }
-            }
-            db.CloseConnetion();
-            return admin;
-        }
+
 
     }
 }
