@@ -29,9 +29,12 @@ namespace VecozoWep.Controllers
         }
 
         
-        public IActionResult MedewerkerOverzicht()
+        public IActionResult MedewerkerOverzicht(int mwid)
         {
-            return View();
+            MedewerkerVM vm = new(MC.FindById(mwid));
+            vm.Ratings = VC.FindByMedewerker(vm.UserID).Select(x => new RatingVM(x)).ToList();
+            vm.MijnTeam = MC.GetTeamById(vm.UserID);
+            return View(vm);
         }
     }
 }

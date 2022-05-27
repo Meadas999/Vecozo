@@ -19,14 +19,14 @@ namespace InterfaceLib
         public List<RatingDTO> Ratings { get; set; } = new List<RatingDTO>();
         public TeamDTO? MijnTeam { get; set; }
        
-        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID, List<RatingDTO> ratings)
+        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID)
         {
             Email = email;
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
             Achternaam = achternaam;
             this.Id = userID;
-            Ratings = ratings;
+            
         }
 
         public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID,TeamDTO mijnTeam)

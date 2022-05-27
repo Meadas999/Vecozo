@@ -67,9 +67,9 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"]),
-                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"]))));
-                    
+                        Convert.ToInt32(reader["Id"])));
+                        
+
 
                 }
                 return medewerkers;
@@ -98,9 +98,8 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"]),
-                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"]))));
-                        
+                        Convert.ToInt32(reader["Id"])));
+
                 }
             }
             db.CloseConnetion();
@@ -121,8 +120,7 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(),
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"]),
-                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"]))));
+                        Convert.ToInt32(reader["Id"])));
                 }
             }
             db.CloseConnetion();
@@ -167,8 +165,8 @@ namespace DALMSSQL
             {
                 while (reader.Read())
                 {
-                   team = new TeamDTO(
-                        Convert.ToInt32(reader["Id"]), Convert.ToString(reader["Teamkleur"]), Convert.ToString(reader["Taak"]), Convert.ToDouble(reader["Gem_Rating"]));
+                    team = new TeamDTO(
+                         Convert.ToInt32(reader["Id"]), Convert.ToString(reader["Teamkleur"]), Convert.ToString(reader["Taak"]), Convert.ToDouble(reader["Gem_Rating"]));
                     return team;
                     db.CloseConnetion();
                 }

@@ -24,7 +24,7 @@
                     foreach (RatingVM v in m.Ratings)
                     {
                         <tr>
-                            <td>@m.GetFullName()</td>
+                            <td><a asp-action="MedewerkerOverzicht" asp-route-mwid="@m.UserID">@m.GetFullName()</a></td>
                             <td>@v.Vaardigheid.Naam</td>
                             <td>@m.MijnTeam.Kleur</td>
                             <td>

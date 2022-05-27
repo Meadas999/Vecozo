@@ -12,6 +12,13 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $('#input-3').rating({ displayOnly: true, step: 0.5 });
+    $('#input-5').rating({ clearCaption: 'No stars yet' });
+    $('#input-8').rating({ rtl: true, containerClass: 'is-star' });
+    $('#input-9').rating();
+});
+
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("medewerkersTable");

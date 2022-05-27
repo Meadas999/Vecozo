@@ -21,8 +21,7 @@ namespace VecozoWep.Controllers
             }
             return RedirectToAction("Index","Login");
         }
-
-        public IActionResult VaardigheidToevoegen()
+            public IActionResult VaardigheidToevoegen()
         {
             RatingVM rating = new();
             return PartialView("_VaardigheidToevoegenParial", rating);

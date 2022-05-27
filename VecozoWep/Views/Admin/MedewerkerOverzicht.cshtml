@@ -1,93 +1,104 @@
-﻿@{
-    ViewData["Title"] = "MedewerkerOverzicht";
+﻿@using VecozoWeb.Models
+@model MedewerkerVM
+@{
+    ViewData["Title"] = "Index";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<h1>Amier Alchazli</h1>
+
+<h3>@Model.GetFullName()'s Vaardigheden</h3>
 <body>
-    <p>Laatst gewijzegd: 20-04-2022</p>
-
-    <table class="table  table-hover">
+    <table class="table table-hover" id="medewerkersTable">
         <thead>
             <tr>
-                <th scope="col">Naam</th>
-                <th scope="col">Score</th>
-                <th scope="col">Beschrijving</th>
+                <th onclick="sortTable(0)" scope="col">Naam</th>
+                <th onclick="sortTable(1)" scope="col">Score</th>
+                <th onclick="sortTable(2)" scope="col">Beschrijving</th>
+                <th onclick="sortTable(23" scope="col">Laatst gewijzigd</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        C#
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
+            @foreach (RatingVM r in Model.Ratings)
+            {
+                <tr>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @r.Vaardigheid.Naam
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @for (int i = 0; i < r.Score; i++)
+                            {
+                                <span class="fa fa-star checked"></span>
+                            }
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @r.Beschrijving
+                        </a>
+                    </td>
+                    <td>
+                        <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
+                            @r.LaatsteDatum.ToShortDateString()
+                        </a>
+                    </td>
+                </tr>
+            }
 
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        twee jaar ervaring
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        JavaScript
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        10 jaar ervaring en 3 jaar gewerkt bij Google
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        SQL
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                    </a>
-                </td>
-                <td>
-                    <a data-bs-toggle="offcanvas" href="#offcanvasRight" aria-controls="offcanvasRight">
-                        5 jaar ervaring
-                </td>
-                </a>
-            </tr>
         </tbody>
     </table>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+            <h5 id="offcanvasRightLabel">Update</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             ...
         </div>
     </div>
+    <br />
+    <a class="" data-bs-toggle="modal" href="#exampleModal" role="button" aria-controls="#exampleModal">
+        Voeg een vaardigheid toe
+    </a>
+    @*<!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nieuwe vaardigheid</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <select class="form-select" id="inputGroupSelect01" style="width:auto">
+                            <option value="1">C#</option>
+                            <option value="2">Java</option>
+                            <option value="3">JavaScript</option>
+                            <option value="3">Sql</option>
+                            <option value="3">Asp.net</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="input-1" class="control-label">Score</label>
+                        <input äsp-for= id="input-1" name="input-1" class="rating rating-loading" data-min="0" data-max="5" data-step="1" data-size="sm">
+
+                    </div>
+                    <div class="form-floating mb-6">
+                        <input type="email" class="form-control" id="floatingInput" style="width:auto;">
+                        <label for="floatingInput">Beschrijving</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    
 </body>
+
 
