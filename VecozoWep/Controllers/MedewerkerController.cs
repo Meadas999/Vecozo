@@ -16,6 +16,7 @@ namespace VecozoWep.Controllers
             {
                 int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                 Medewerker med = MC.FindById(id);
+                med.Ratings = VC.FindByMedewerker(med.UserID);
                 MedewerkerVM vm = new(med);
                 return View(vm);
             }
@@ -32,7 +33,7 @@ namespace VecozoWep.Controllers
         public IActionResult VaardigheidToevoegen(RatingVM r)
         {
             int? id = HttpContext.Session.GetInt32("UserId");
-            Medewerker med = MC.FindById(1);
+            Medewerker med = MC.FindById(id.Value);
             r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam);
             Rating rating = r.GetRating();
             VC.VoegVaardigheidToeAanMedewerker(med, rating);
@@ -49,7 +50,7 @@ namespace VecozoWep.Controllers
         public IActionResult VaardigheidVerwijderen(RatingVM r)
         {
             int? id = HttpContext.Session.GetInt32("UserId");
-            Medewerker med = MC.FindById(1);
+            Medewerker med = MC.FindById(id.Value);
             Rating rating = r.GetRating();
             VC.VerwijderVaarigheidVanMedewerker(med, rating.Vaardigheid);
             return RedirectToAction("Index");

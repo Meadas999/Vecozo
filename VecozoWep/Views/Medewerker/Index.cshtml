@@ -19,39 +19,42 @@
         <tbody>
             @if (Model.Ratings != null)
             {
-                <tr>
-                    <td>
-                        @r.Vaardigheid.Naam
-                    </td>
-                    <td>
-                        @for (int i = 0; i < r.Score; i++)
-                        {
-                            <span class="fa fa-star checked"></span>
-                        }
-                    </td>
-                    <td>
-                        @r.Beschrijving
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="bi bi-three-dots-vertical"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li>
-                                    <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidEdit", "Medewerker")">
-                                        Wijzig vaardigheid
-                                    </button>
-                                </li>
-                                <li>
-                                    <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidVerwijderen", "Medewerker")">
-                                        Verwijder vaardigheid
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
+                foreach (RatingVM r in Model.Ratings)
+                {
+                    <tr>
+                        <td>
+                            @r.Vaardigheid.Naam
+                        </td>
+                        <td>
+                            @for (int i = 0; i < r.Score; i++)
+                            {
+                                <span class="fa fa-star checked"></span>
+                            }
+                        </td>
+                        <td>
+                            @r.Beschrijving
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="bi bi-three-dots-vertical"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidEdit", "Medewerker")">
+                                            Wijzig vaardigheid
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidVerwijderen", "Medewerker")">
+                                            Verwijder vaardigheid
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
 
         </tbody>

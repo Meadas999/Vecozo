@@ -39,6 +39,10 @@ namespace VecozoWep.Models
             Wachtwoord = wachtwoord;
             IsAdmin = isAdmin;
         }
+
+        public MedewerkerVM()
+        {
+        }
         public MedewerkerVM(Medewerker medewerker)
         {
             Voornaam = medewerker.Voornaam;
@@ -46,23 +50,10 @@ namespace VecozoWep.Models
             Achternaam = medewerker.Achternaam;
             UserID = medewerker.UserID;
             MijnTeam = new(medewerker.MijnTeam);
-        }
-        public MedewerkerVM()
-        {
-        }
-        public MedewerkerVM(Medewerker medewerker)
-        {
-            Voornaam = medewerker.Voornaam;
-            Tussenvoegsel = medewerker.Tussenvoegsel;
-            Achternaam = medewerker.Achternaam;
-            UserID = medewerker.UserID;
-            MijnTeam = medewerker.MijnTeam;
             Ratings = medewerker.Ratings.Select(x => new RatingVM(x)).ToList();
 
         }
-        public MedewerkerVM()
-        {
-
+  
         public string GetFullName()
         {
             return $"{Voornaam} {Voornaam} {Achternaam}";
