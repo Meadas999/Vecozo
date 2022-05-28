@@ -24,24 +24,17 @@ namespace VecozoWep.Controllers
         {
             LeidingGevende admin = LC.Inloggen(vm.Email, vm.Password);
             Medewerker user = MC.Inloggen(vm.Email, vm.Password);
-            if (admin != null)
+            if (user != null)
             {
                 MedewerkerVM mvm = new(user);
                 HttpContext.Session.SetInt32("UserId", mvm.UserID);
                 return RedirectToAction("Index", "Medewerker");
             }
-            else if(LC.Inloggen(vm.Email,vm.Password) != null)
+            else if(admin != null)
             {
                 LeidingGevende lg = LC.Inloggen(vm.Email, vm.Password);
                 HttpContext.Session.SetInt32("UserId", lg.UserID);
                 return RedirectToAction("Index", "Admin");
-            }
-            else if (user != null)
-            {
-                
-                MedewerkerVM mvm = new(user);
-                HttpContext.Session.SetInt32("UserId", mvm.UserID);
-                return RedirectToAction("Index", "Medewerker");
             }
             else
             {

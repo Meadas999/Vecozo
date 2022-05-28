@@ -9,6 +9,6 @@ namespace InterfaceLib
     public interface ITeamContainer
     {
         public List<TeamDTO> GetAll();
-        public TeamDTO FindById(int id);
+        public TeamDTO? FindByUserId(int userid);
     }
 }

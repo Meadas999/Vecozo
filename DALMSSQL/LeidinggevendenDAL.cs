@@ -43,8 +43,8 @@ namespace DALMSSQL
                     reader["Wachtwoord"].ToString(),
                     reader["Voornaam"].ToString(),
                     reader["Tussenvoegsel"].ToString(),
-                    reader["Achternaam"].ToString(),
-                    Convert.ToInt32(reader["Id"]));
+                    Convert.ToInt32(reader["Id"]),
+                    reader["Achternaam"].ToString());
             }
             db.CloseConnetion();
             return dto;
@@ -91,17 +91,18 @@ namespace DALMSSQL
                         reader["Wachtwoord"].ToString(),
                         reader["Voornaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
-                        reader["Achternaam"].ToString(),
-                        Convert.ToInt32(reader["Id"]));
+                        Convert.ToInt32(reader["Id"]),
+                        reader["Achternaam"].ToString()
+                        );
                     }
                 }
                 db.CloseConnetion();
-                isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.Wachtwoord);
+                isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, dto.Wachtwoord);
             }
 
             if (isValid)
             {
-                return FindById(med.UserID);
+                return FindById(dto.UserID);
             }
             return null;
         }

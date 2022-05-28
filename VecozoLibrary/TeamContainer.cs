@@ -23,7 +23,7 @@ namespace BusnLogicVecozo
         
         public Team FindById(int id)
         {
-            return new Team(container.FindById(id));
+            return new Team(container.FindByUserId(id));
         }
 
 

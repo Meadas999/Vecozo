@@ -143,8 +143,7 @@ namespace DALMSSQL
                         reader["Voornaam"].ToString(), 
                         reader["Tussenvoegsel"].ToString(),
                         reader["Achternaam"].ToString(),
-                        Convert.ToInt32(reader["Id"]),
-                        vaardigheidDAL.FindByMedewerker(Convert.ToInt32(reader["Id"])));
+                        Convert.ToInt32(reader["Id"]));
                 }
             }
             db.CloseConnetion();
@@ -152,47 +151,7 @@ namespace DALMSSQL
             
         }
 
-        public TeamDTO GetTeamById(int userid)
-        {
-            int teamid = GetTeamIdByUserid(userid);
-            db.OpenConnection();
-            TeamDTO team = null;
-            string query = @"SELECT * FROM Team WHERE Id = @id";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@id", teamid);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    team = new TeamDTO(
-                         Convert.ToInt32(reader["Id"]), Convert.ToString(reader["Teamkleur"]), Convert.ToString(reader["Taak"]), Convert.ToDouble(reader["Gem_Rating"]));
-                    return team;
-                    db.CloseConnetion();
-                }
-            }
-            db.CloseConnetion();
-            return null;
-
-        }
-        private int GetTeamIdByUserid(int userid)
-        {
-            db.OpenConnection();
-            string query = @"SELECT TeamId FROM Medewerker WHERE Id = @id";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@id", userid);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    int teamid = Convert.ToInt32(reader["TeamId"]);
-                    return teamid;
-                }
-            }
-            db.CloseConnetion();
-            return -1;
-        }
+        
 
         public void KoppelMedewerkerAanLeidinggevenden(MedewerkerDTO med,LeidingGevendeDTO leid)
         {

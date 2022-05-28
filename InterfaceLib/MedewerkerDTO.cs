@@ -29,7 +29,7 @@ namespace InterfaceLib
             
         }
 
-        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID,TeamDTO mijnTeam)
+        public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID, TeamDTO mijnTeam)
         {
             Email = email;
             Voornaam = voornaam;

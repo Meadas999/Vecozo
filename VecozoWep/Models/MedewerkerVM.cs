@@ -17,7 +17,7 @@ namespace VecozoWep.Models
         public string Wachtwoord { get; set; }
         public int UserID { get; set; }
         public TeamVM? MijnTeam { get; set; } = new();
-        public List<VaardigheidVM> vaardigheden { get; set; }
+        public List<RatingVM> Ratings { get; set; }
         public LeidinggevendenVM Leidinggevende { get; set; }
         public bool IsAdmin { get; set; }
 
@@ -30,7 +30,7 @@ namespace VecozoWep.Models
             MijnTeam = mijnTeam;
         }
 
-        public MedewerkerVM(string email,string wachtwoord,string voornaam, string? tussenvoegsel, string achternaam,bool isAdmin)
+        public MedewerkerVM(string email, string wachtwoord, string voornaam, string? tussenvoegsel, string achternaam, bool isAdmin)
         {
             Voornaam = voornaam;
             Tussenvoegsel = tussenvoegsel;
@@ -45,9 +45,17 @@ namespace VecozoWep.Models
             Tussenvoegsel = medewerker.Tussenvoegsel;
             Achternaam = medewerker.Achternaam;
             UserID = medewerker.UserID;
-            MijnTeam = new (medewerker.MijnTeam);
+            MijnTeam = new(medewerker.MijnTeam);
         }
         public MedewerkerVM()
         {
+        }
+
+        public string GetFullName()
+        {
+            return $"{Voornaam} {Voornaam} {Achternaam}";
+        }
+    }
+}
 
 

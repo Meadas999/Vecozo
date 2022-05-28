@@ -12,13 +12,14 @@ namespace DALMSSQL
     {
         ConnectionDb db = new();
 
-        public TeamDTO? FindById(int id)
+        public TeamDTO? FindByUserId(int userid)
         {
+            int teamid = GetTeamIdByUserid(userid);
             TeamDTO? dto = null;
             db.OpenConnection();
             string query = @"SELECT * FROM Team WHERE Id = @id";
             SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@id", userid);
             SqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
@@ -50,5 +51,24 @@ namespace DALMSSQL
             db.CloseConnetion();
             return dtos;
         }
+        private int GetTeamIdByUserid(int userid)
+        {
+            db.OpenConnection();
+            string query = @"SELECT TeamId FROM Medewerker WHERE Id = @id";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@id", userid);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    int teamid = Convert.ToInt32(reader["TeamId"]);
+                    return teamid;
+                }
+            }
+            db.CloseConnetion();
+            return -1;
+        }
+
     }
 }

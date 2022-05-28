@@ -8,7 +8,7 @@ namespace VecozoWeb.Models
         public int Id { get; set; }
         public string Kleur { get; set; }
         public string Taak { get; set; }
-        public float GemRating { get; set; }
+        public double GemRating { get; set; }
         public List<MedewerkerVM> GroepLeden { get; set; } = new List<MedewerkerVM>();
 
         public TeamVM()

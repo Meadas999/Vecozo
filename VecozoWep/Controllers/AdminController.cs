@@ -10,8 +10,8 @@ namespace VecozoWep.Controllers
     {
         private LeidingGevendeContainer LC = new(new LeidinggevendenDAL());
         private MedewerkerContainer MC = new(new MedewerkerDAL());
-        private LeidingGevendeContainer LC = new(new LeidinggevendenDAL());
         private VaardigheidContainer VC = new(new VaardigheidDAL());
+        private TeamContainer TC = new(new TeamDAL());
         public IActionResult Index()
         {
             if (HttpContext.Session.GetInt32("UserId") != null)
@@ -21,7 +21,7 @@ namespace VecozoWep.Controllers
                 vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
                 foreach (MedewerkerVM m in vm.Medewerkers)
                 {
-                    m.vaardigheden = VC.FindByMedewerker(m.UserID).Select(x => new VaardigheidVM(x)).ToList();
+                    m.Ratings = VC.FindByMedewerker(m.UserID).Select(x => new RatingVM(x)).ToList();
                 }
                 return View(vm);
             }
@@ -33,7 +33,7 @@ namespace VecozoWep.Controllers
         {
             MedewerkerVM vm = new(MC.FindById(mwid));
             vm.Ratings = VC.FindByMedewerker(vm.UserID).Select(x => new RatingVM(x)).ToList();
-            vm.MijnTeam = MC.GetTeamById(vm.UserID);
+            vm.MijnTeam = new(TC.FindById(vm.UserID));
             return View(vm);
         }
     }
