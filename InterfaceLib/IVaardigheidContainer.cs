@@ -8,7 +8,7 @@ namespace InterfaceLib
 {
     public interface IVaardigheidContainer
     {
-        public void Create(VaardigheidDTO vaardigheid);
+        public VaardigheidDTO Create(VaardigheidDTO vaardigheid);
         public void Delete(VaardigheidDTO vaardigheid);
         public void VerwijderVaarigheidVanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid);
         public void Update(VaardigheidDTO vaardigheid);
@@ -16,7 +16,7 @@ namespace InterfaceLib
         public List<VaardigheidDTO> GetAll();
         public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, RatingDTO rating);
         public VaardigheidDTO? BestaandeVaardigeheid(string naam);
-        public void UpdateRating(RatingDTO rating, VaardigheidDTO vaardigheid);
+        public void UpdateRating(RatingDTO rating);
 
     }
 }

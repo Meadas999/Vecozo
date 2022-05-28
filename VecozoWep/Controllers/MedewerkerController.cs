@@ -21,22 +21,52 @@ namespace VecozoWep.Controllers
             }
             return RedirectToAction("Index","Login");
         }
-            public IActionResult VaardigheidToevoegen()
+        [HttpGet]
+        public IActionResult VaardigheidToevoegen()
         {
             RatingVM rating = new();
+            rating.Vaardigheid = new();
             return PartialView("_VaardigheidToevoegenParial", rating);
         }
+        [HttpPost]
         public IActionResult VaardigheidToevoegen(RatingVM r)
         {
             int? id = HttpContext.Session.GetInt32("UserId");
-            if (ModelState.IsValid && id != null)
-            {
-                Medewerker med = MC.FindById((int)id);
-                Rating rating = r.GetRating();
-                VC.VoegVaardigheidToeAanMedewerker(med, rating);
-                return RedirectToAction("Index");
-            }
-            return View("Index");
+            Medewerker med = MC.FindById(1);
+            r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam);
+            Rating rating = r.GetRating();
+            VC.VoegVaardigheidToeAanMedewerker(med, rating);
+            return RedirectToAction("Index");
+        }
+        
+        [HttpGet]
+        public IActionResult VaardigheidVerwijderen(int Id)
+        {
+            RatingVM rating = new();
+            return PartialView("_VaardigheidVerwijderenParial", rating);
+        }
+        [HttpPost]
+        public IActionResult VaardigheidVerwijderen(RatingVM r)
+        {
+            int? id = HttpContext.Session.GetInt32("UserId");
+            Medewerker med = MC.FindById(1);
+            Rating rating = r.GetRating();
+            VC.VerwijderVaarigheidVanMedewerker(med, rating.Vaardigheid);
+            return RedirectToAction("Index");
+        }
+        
+        [HttpGet]
+        public IActionResult VaardigheidEdit(int Id)
+        {
+            RatingVM rating = new();
+            return PartialView("_VaardigheidEditParial", rating);
+        }
+        [HttpPost]
+        public IActionResult VaardigheidEdit(RatingVM r)
+        {
+            Rating rating = r.GetRating();
+            VC.UpdateRating( rating);
+            return RedirectToAction("Index");
         }
     }
 }

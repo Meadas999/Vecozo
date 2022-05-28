@@ -24,7 +24,7 @@ namespace BusnLogicVecozo
         }
         public Medewerker(MedewerkerDTO dto) : base(dto.Email, dto.Voornaam, dto.Achternaam, dto.Id, dto.Tussenvoegsel)
         {
-            //Vaardigheden = dto.Vaardigheden.Select(x => new Vaardigheid(x)).ToList();
+            Ratings = dto.Ratings.Select(x => new Rating(x)).ToList();
             //LeidingGevenden = dto.LeidingGevenden.Select(x => new LeidingGevende(x)).ToList();
             MijnTeam = new(dto.MijnTeam);
         }

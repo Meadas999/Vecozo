@@ -14,10 +14,11 @@ namespace BusnLogicVecozo
         {
             this.container = container;
         }
-        public void Create(Vaardigheid vaardigheid)
+        public Vaardigheid Create(Vaardigheid vaardigheid)
         {
             VaardigheidDTO dto = vaardigheid.GetDTO();
-            container.Create(dto);
+            VaardigheidDTO dto2 = container.Create(dto);
+            return new Vaardigheid(dto2);
         }
         public void Delete(Vaardigheid vaardigheid)
         {
@@ -61,11 +62,10 @@ namespace BusnLogicVecozo
             }
             return new Vaardigheid(dto);
         }
-        public void UpdateRating(Rating rating, Vaardigheid vaardigheid)
+        public void UpdateRating(Rating rating)
         {
-            VaardigheidDTO dto = vaardigheid.GetDTO();
             RatingDTO dto2 = rating.GetDTO();
-            container.UpdateRating(dto2, dto);
+            container.UpdateRating(dto2);
         }
     }
 }

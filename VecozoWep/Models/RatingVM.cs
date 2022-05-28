@@ -9,6 +9,7 @@ namespace VecozoWeb.Models
         public int Score { get; set; }
         public string Beschrijving { get; set; }
         public DateTime LaatsteDatum { get; set; }
+        public string vaardigheidNaam { get; set; }
         public VaardigheidVM Vaardigheid { get; set; }
 
 

@@ -50,6 +50,18 @@ namespace VecozoWep.Models
         public MedewerkerVM()
         {
         }
+        public MedewerkerVM(Medewerker medewerker)
+        {
+            Voornaam = medewerker.Voornaam;
+            Tussenvoegsel = medewerker.Tussenvoegsel;
+            Achternaam = medewerker.Achternaam;
+            UserID = medewerker.UserID;
+            MijnTeam = medewerker.MijnTeam;
+            Ratings = medewerker.Ratings.Select(x => new RatingVM(x)).ToList();
+
+        }
+        public MedewerkerVM()
+        {
 
         public string GetFullName()
         {

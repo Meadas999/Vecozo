@@ -1,0 +1,47 @@
+﻿@using VecozoWeb.Models
+@model RatingVM
+
+<!-- Modal -->
+<div class="modal fade" id="vaardigheidToevoegen" tabindex="-1" aria-labelledby="vaardigheidToevoegenLabel" aria-hidden="true">
+    <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vaardigheidToevoegenLabel">Vaardigheid verwijderen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>Wilt u deze vaardigheid zeker verwijderen?</h3>
+                <input asp-for="@Model.Vaardigheid.Id" type="hidden" id="vaardigheidId" value="@Model.Vaardigheid.Id">
+                <table class="table  table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Naam</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Beschrijving</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Model.Vaardigheid.Naam
+                            </td>
+                            <td>
+                                @for (int i = 0; i < Model.Score; i++)
+                                {
+                                    <span class="fa fa-star checked"></span>
+                                }
+                            </td>
+                            <td>
+                                @Model.Beschrijving
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Annuleren</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("VaardigheidVerwijderen","Medewerker")">Vaardigheid verwijderen</button>
+            </div>
+        </div>
+    </div>
+</div>

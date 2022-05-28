@@ -12,6 +12,10 @@ namespace VecozoWep.Models
             Naam = naam;
             Id = id;
         }
+        public VaardigheidVM(string naam)
+        {
+            Naam = naam;
+        }
 
         public VaardigheidVM(Vaardigheid v)
         {

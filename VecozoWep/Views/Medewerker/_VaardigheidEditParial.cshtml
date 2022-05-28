@@ -6,15 +6,16 @@
     <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="vaardigheidToevoegenLabel">Nieuwe vaardigheid</h5>
+                <h5 class="modal-title" id="vaardigheidToevoegenLabel">Vaardigheid wijzigen</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="VaardigheidToevoegen">
+                <form asp-action="VaardigheidEdit">
                     <div class="form-group">
                         <input type="hidden" asp-for="LaatsteDatum" value="@DateTime.Now" />
+                        <input type="hidden" asp-for="Vaardigheid.Id" value="@Model.Vaardigheid.Id" />
                         <label asp-for="vaardigheidNaam">Naam</label>
-                        <input asp-for="vaardigheidNaam" class="form-control">
+                        <input asp-for="vaardigheidNaam" class="form-control" placeholder="@Model.Vaardigheid.Naam">
                         <span asp-validation-for="vaardigheidNaam" class="text-danger"></span>
                     </div>
                     <br />
@@ -33,7 +34,7 @@
                     <br />
                     <div class="form-group">
                         <label asp-for="Beschrijving">Beschrijving</label>
-                        <input asp-for="Beschrijving" class="form-control">
+                        <input asp-for="Beschrijving" class="form-control" placeholder="@Model.Beschrijving">
                         <span asp-validation-for="Beschrijving" class="text-danger"></span>
                     </div>
 
@@ -41,7 +42,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Annuleren</button>
-                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("VaardigheidToevoegen","Medewerker")">Vaardigheid toevoegen</button>
+                <button type="button" class="btn btn-primary" data-save="modal" data-url="@Url.Action("VaardigheidEdit","Medewerker")">Vaardigheid Wijzigen</button>
             </div>
         </div>
     </div>
