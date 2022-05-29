@@ -31,10 +31,116 @@ namespace VecozoWep.Controllers
         
         public IActionResult MedewerkerOverzicht(int mwid)
         {
+            HttpContext.Session.SetInt32("MwId", mwid);
             MedewerkerVM vm = new(MC.FindById(mwid));
             vm.Ratings = VC.FindByMedewerker(vm.UserID).Select(x => new RatingVM(x)).ToList();
-            vm.MijnTeam = new(TC.FindById(vm.UserID));
+            //vm.MijnTeam = new(TC.FindById(vm.UserID));
             return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult VaardigheidToevoegen()
+        {
+            RatingVM rating = new();
+            rating.Vaardigheid = new();
+            return PartialView("_VaardigheidTvgPartial", rating);
+        }
+        [HttpPost]
+        public IActionResult VaardigheidToevoegen(RatingVM r)
+        {
+            int? id = HttpContext.Session.GetInt32("MwId");
+            Medewerker med = MC.FindById(id.Value);
+            r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam);
+            Rating rating = r.GetRating();
+            VC.VoegVaardigheidToeAanMedewerker(med, rating);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult VaardigheidVerwijderen(int VaardigheidId)
+        {
+            int? Userid = HttpContext.Session.GetInt32("MwId");
+            Rating r = VC.FindRating(Userid.Value, VaardigheidId);
+            RatingVM rating = new(r);
+            return PartialView("_VaardigheidVwdPartial", rating);
+        }
+        [HttpPost]
+        public IActionResult VaardigheidVerwijderen(RatingVM r, int VaardigheidId)
+        {
+            int? id = HttpContext.Session.GetInt32("MwId");
+            Medewerker med = MC.FindById(id.Value);
+            VC.VerwijderVaarigheidVanMedewerker(med, VaardigheidId);
+            RatingVM rating = new();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult VaardigheidEdit(int VaardigheidId)
+        {
+            int? Userid = HttpContext.Session.GetInt32("MwId");
+            Rating r = VC.FindRating(Userid.Value, VaardigheidId);
+            RatingVM rating = new(r);
+            return PartialView("_VaardigheidEditPartial", rating);
+        }
+        [HttpPost]
+        public IActionResult VaardigheidEdit(RatingVM r)
+        {
+            int? id = HttpContext.Session.GetInt32("MwId");
+            Medewerker med = MC.FindById(id.Value);
+            r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam, r.vaardigheidId);
+            Rating rating = r.GetRating();
+            VC.UpdateRating(med, rating);
+            return RedirectToAction("Index");
+        }
+        //[HttpGet]
+        //public IActionResult VaardigheidToevoegen(int mwid)
+        //{
+        //    RatingVM rating = new();
+        //    rating.Vaardigheid = new();
+        //    return PartialView("_VaardigheidToevoegenParial", rating);
+        //}
+        //[HttpPost]
+        //public IActionResult VaardigheidTvgBijMW(RatingVM r, int mwid)
+        //{
+        //    Medewerker med = MC.FindById(mwid);
+        //    r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam);
+        //    Rating rating = r.GetRating();
+        //    VC.VoegVaardigheidToeAanMedewerker(med, rating);
+        //    return RedirectToAction("MedewerkerOverzicht", mwid);
+        //}
+
+        //[HttpGet]
+        //public IActionResult VaardigheidVerwijderen(int mwid, int VaardigheidId)
+        //{
+        //    Rating r = VC.FindRating(mwid, VaardigheidId);
+        //    RatingVM rating = new(r);
+        //    return PartialView("_VaardigheidVerwijderenPartial", rating);
+        //}
+
+        //[HttpPost]
+        //public IActionResult VaardigheidVerwijderen(int mwid, RatingVM r, int VaardigheidId)
+        //{
+        //    Medewerker med = MC.FindById(mwid);
+        //    VC.VerwijderVaarigheidVanMedewerker(med, VaardigheidId);
+        //    RatingVM rating = new();
+        //    return RedirectToAction("Index");
+        //}
+
+        //[HttpGet]
+        //public IActionResult VaardigheidEdit(int mwid, int VaardigheidId)
+        //{
+        //    Rating r = VC.FindRating(mwid, VaardigheidId);
+        //    RatingVM rating = new(r);
+        //    return PartialView("_VaardigheidEditParial", rating);
+        //}
+
+        //public IActionResult VaardigheidEdit(int mwid, RatingVM r)
+        //{
+        //    Medewerker med = MC.FindById(mwid);
+        //    r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam, r.vaardigheidId);
+        //    Rating rating = r.GetRating();
+        //    VC.UpdateRating(med, rating);
+        //    return RedirectToAction("Index");
+        //}
     }
 }

@@ -16,6 +16,7 @@ namespace VecozoWep.Controllers
         
         public IActionResult Index()
         {
+            HttpContext.Session.Clear();
             InlogVM vm = new();
             return View(vm);
         }
