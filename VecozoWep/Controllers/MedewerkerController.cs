@@ -41,32 +41,39 @@ namespace VecozoWep.Controllers
         }
         
         [HttpGet]
-        public IActionResult VaardigheidVerwijderen(int Id)
+        public IActionResult VaardigheidVerwijderen(int VaardigheidId)
         {
-            RatingVM rating = new();
-            return PartialView("_VaardigheidVerwijderenParial", rating);
+            int? Userid = HttpContext.Session.GetInt32("UserId");
+            Rating r = VC.FindRating(Userid.Value, VaardigheidId);
+            RatingVM rating = new(r);
+            return PartialView("_VaardigheidVerwijderenPartial", rating);
         }
         [HttpPost]
-        public IActionResult VaardigheidVerwijderen(RatingVM r)
+        public IActionResult VaardigheidVerwijderen(RatingVM r, int VaardigheidId)
         {
             int? id = HttpContext.Session.GetInt32("UserId");
             Medewerker med = MC.FindById(id.Value);
-            Rating rating = r.GetRating();
-            VC.VerwijderVaarigheidVanMedewerker(med, rating.Vaardigheid);
+            VC.VerwijderVaarigheidVanMedewerker(med, VaardigheidId);
+            RatingVM rating = new();
             return RedirectToAction("Index");
         }
         
         [HttpGet]
-        public IActionResult VaardigheidEdit(int Id)
+        public IActionResult VaardigheidEdit(int VaardigheidId)
         {
-            RatingVM rating = new();
+            int? Userid = HttpContext.Session.GetInt32("UserId");
+            Rating r = VC.FindRating(Userid.Value, VaardigheidId);
+            RatingVM rating = new(r);
             return PartialView("_VaardigheidEditParial", rating);
         }
         [HttpPost]
         public IActionResult VaardigheidEdit(RatingVM r)
         {
+            int? id = HttpContext.Session.GetInt32("UserId");
+            Medewerker med = MC.FindById(id.Value);            
+            r.Vaardigheid = new VaardigheidVM(r.vaardigheidNaam, r.vaardigheidId);
             Rating rating = r.GetRating();
-            VC.UpdateRating( rating);
+            VC.UpdateRating(med, rating);
             return RedirectToAction("Index");
         }
     }

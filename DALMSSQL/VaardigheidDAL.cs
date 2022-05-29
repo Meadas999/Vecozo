@@ -114,17 +114,16 @@ namespace DALMSSQL
             db.CloseConnetion();
         }
 
-        public void VerwijderVaarigheidVanMedewerker(MedewerkerDTO medewerker, VaardigheidDTO vaardigheid)
+        public void VerwijderVaarigheidVanMedewerker(MedewerkerDTO medewerker, int vaardigheidId)
         {
             db.OpenConnection();
             string query = @"DELETE FROM MedewerkerVaardigheid WHERE VaardigheidId = @vaarId AND MedewerkerId = @medID";
             SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@vaarId", vaardigheid.Id);
+            command.Parameters.AddWithValue("@vaarId", vaardigheidId);
             command.Parameters.AddWithValue("@medID", medewerker.Id);
             command.ExecuteNonQuery();
             db.CloseConnetion();
         }
-        //TODO: Test
         public void VoegVaardigheidToeAanMedewerker(MedewerkerDTO medewerker, RatingDTO rating)
         {
             if (BestaandeVaardigeheid(rating.vaardigheidDTO.Naam) != null)
@@ -156,18 +155,81 @@ namespace DALMSSQL
             }
         }
 
-        public void UpdateRating(RatingDTO rating)
+        public void UpdateRating(MedewerkerDTO med, RatingDTO rating)
+        {
+            VaardigheidDTO? vaar = BestaandeVaardigeheid(rating.vaardigheidDTO.Naam);
+            if (vaar != null)
+            {
+                db.OpenConnection();
+                string query = "UPDATE MedewerkerVaardigheid SET VaardigheidId = @vaarID, Beschrijving = @beschrijving, Score = @score, LaatsteDatum = @laatsteDatum WHERE VaardigheidId = @id AND MedewerkerId = @medID";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@vaarID", vaar.Id);
+                command.Parameters.AddWithValue("@beschrijving", rating.Beschrijving);
+                command.Parameters.AddWithValue("@score", rating.Score);
+                command.Parameters.AddWithValue("@laatsteDatum", rating.LaatsteDatum);
+                command.Parameters.AddWithValue("@id", rating.vaardigheidDTO.Id);
+                command.Parameters.AddWithValue("@medID", med.Id);
+                command.ExecuteNonQuery();
+                db.CloseConnetion();
+            }
+            else
+            {
+                VaardigheidDTO v = Create(rating.vaardigheidDTO);
+                db.OpenConnection();
+                string query = "UPDATE MedewerkerVaardigheid SET VaardigheidId = @vaarID, Beschrijving = @beschrijving, Score = @score, LaatsteDatum = @laatsteDatum WHERE VaardigheidId = @id AND MedewerkerId = @medID";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@vaarID", v.Id);
+                command.Parameters.AddWithValue("@beschrijving", rating.Beschrijving);
+                command.Parameters.AddWithValue("@score", rating.Score);
+                command.Parameters.AddWithValue("@laatsteDatum", rating.LaatsteDatum);
+                command.Parameters.AddWithValue("@id", rating.vaardigheidDTO.Id);
+                command.Parameters.AddWithValue("@medID", med.Id);
+                command.ExecuteNonQuery();
+                db.CloseConnetion();
+            }
+ 
+        }
+        public VaardigheidDTO FindVaardigheid(int id)
         {
             db.OpenConnection();
-            string query = "UPDATE MedewerkerVaardigheid SET Beschrijving = @beschrijving, Score = @score, LaatsteDatum = @laatsteDatum WHERE VaardigheidId = @id";
+            string query = @"SELECT * FROM Vaardigheid WHERE Id = @id";
             SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@beschrijving", rating.Beschrijving);
-            command.Parameters.AddWithValue("@score", rating.Score);
-            command.Parameters.AddWithValue("@laatsteDatum", rating.LaatsteDatum);
-            command.Parameters.AddWithValue("@id", rating.vaardigheidDTO.Id);
-            db.OpenConnection();
-            command.ExecuteNonQuery();
+            command.Parameters.AddWithValue("@id", id);
+            SqlDataReader reader = command.ExecuteReader();
+            VaardigheidDTO dto = null;
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    dto = new VaardigheidDTO(
+                        reader["Naam"].ToString(),
+                        Convert.ToInt32(reader["Id"]));
+                }
+            }
             db.CloseConnetion();
+            return dto;
+        }
+        public RatingDTO FindRating(int MedewerkerId, int VaardigheidId)
+        {
+            db.OpenConnection();
+            string query = @"SELECT * FROM MedewerkerVaardigheid WHERE MedewerkerId = @medId AND VaardigheidId = @vaarId";
+            SqlCommand command = new SqlCommand(query, db.connection);
+            command.Parameters.AddWithValue("@medId", MedewerkerId);
+            command.Parameters.AddWithValue("@vaarId", VaardigheidId);
+            SqlDataReader reader = command.ExecuteReader();
+            RatingDTO rating = null;
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    rating = new RatingDTO(
+                        Convert.ToInt32(reader["Score"]),
+                        reader["Beschrijving"].ToString(),
+                        Convert.ToDateTime(reader["LaatsteDatum"]));
+                }
+            }
+            db.CloseConnetion();
+            return rating;
         }
     }
 }

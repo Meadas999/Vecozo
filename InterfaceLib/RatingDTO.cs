@@ -22,5 +22,11 @@ namespace InterfaceLib
             LaatsteDatum = laatsteDatum;
             this.vaardigheidDTO = vaardigheidDTO;
         }
+        public RatingDTO(int score, string beschrijving, DateTime laatsteDatum)
+        {
+            Score = score;
+            Beschrijving = beschrijving;
+            LaatsteDatum = laatsteDatum;
+        }
     }
 }

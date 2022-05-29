@@ -10,6 +10,7 @@ namespace VecozoWeb.Models
         public string Beschrijving { get; set; }
         public DateTime LaatsteDatum { get; set; }
         public string vaardigheidNaam { get; set; }
+        public int vaardigheidId { get; set; }
         public VaardigheidVM Vaardigheid { get; set; }
 
 
@@ -18,14 +19,19 @@ namespace VecozoWeb.Models
             this.Score = score;
             this.Beschrijving = Beschrijving;
             this.LaatsteDatum = datum;
+            this.vaardigheidNaam = vaardigheid.Naam;
+            this.vaardigheidId = vaardigheid.Id;
             this.Vaardigheid = vaardigheid;
         }
+
 
         public RatingVM(Rating rating)
         {
             this.Score = rating.Score;
             this.Beschrijving = rating.Beschrijving;
             this.LaatsteDatum = rating.LaatsteDatum;
+            this.vaardigheidNaam = rating.Vaardigheid.Naam;
+            this.vaardigheidId = rating.Vaardigheid.Id;
             this.Vaardigheid = new VaardigheidVM(rating.Vaardigheid.Naam,rating.Vaardigheid.Id);
         }
         public Rating GetRating()

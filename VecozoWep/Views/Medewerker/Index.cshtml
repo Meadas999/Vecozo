@@ -41,12 +41,12 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li>
-                                        <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidEdit", "Medewerker")">
+                                        <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidEdit", "Medewerker", new {VaardigheidId = r.Vaardigheid.Id})">
                                             Wijzig vaardigheid
                                         </button>
                                     </li>
                                     <li>
-                                        <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidVerwijderen", "Medewerker")">
+                                        <button type="button" class="dropdown-item" data-toggle="ajax-modal" data-target="#vaardigheidToevoegen" data-url="@Url.Action("VaardigheidVerwijderen", "Medewerker", new {VaardigheidId = r.Vaardigheid.Id})">
                                             Verwijder vaardigheid
                                         </button>
                                     </li>
