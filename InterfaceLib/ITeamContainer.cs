@@ -10,5 +10,8 @@ namespace InterfaceLib
     {
         public List<TeamDTO> GetAll();
         public TeamDTO? FindByUserId(int userid);
+        public List<MedewerkerDTO> GetMedewerkersFromTeam(int teamid);
+        public void UpdateTeamMedewerker(MedewerkerDTO medewerker);
+        public void Update(TeamDTO team);
     }
 }

@@ -31,7 +31,7 @@ namespace BusnLogicVecozo
         
         public MedewerkerDTO GetDTO()
         {
-            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID, this.MijnTeam.GetDTO());
+            MijnTeam.Id = id;
         }
         
         public override string ToString()

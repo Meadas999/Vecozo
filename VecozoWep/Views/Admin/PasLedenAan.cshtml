@@ -1,0 +1,59 @@
+﻿@model VecozoWeb.Models.MedewerkerTeamVM
+@{
+    ViewData["Title"] = "PasLedenAan";
+}
+
+<h1>Pas Leden Aan</h1>
+
+<h3>Team @Model.TeamVM.Kleur</h3>
+<form asp-action=PasLedenAan asp-method="post">
+    <body>
+        <table class="table table-hover" id="medewerkersTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)" scope="col">Naam</th>
+                    <th onclick="sortTable(1)" scope="col">Achternaam</th>
+                    <th onclick="sortTable(2)" scope="col">Pas leden aan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MedewerkerVM m in Model.MedewerkersVM)
+                {
+                    <tr>
+                        <td>
+                            @m.Voornaam
+                        </td>
+                        <td>
+                            @m.Achternaam
+                        </td>
+                        <td>
+                            @if (Model.CheckOfMedewerkerInTeamZit(Model.TeamVM.Id).Contains(m.UserID))
+                            {
+                                <input type="checkbox" checked />
+                            }
+                            else if (m.MijnTeam.Id != null)
+                            {
+                                <input type="checkbox" disabled="disabled" />
+                            }
+                            else
+                            {
+                                <input type="checkbox"/>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Update</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                ...
+            </div>
+        </div>
+        <br />
+        <input type="submit" value="Pas aan" class="btn btn-primary" />
+    </body>
+</form>

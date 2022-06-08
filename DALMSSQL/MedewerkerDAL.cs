@@ -1,4 +1,5 @@
-﻿using InterfaceLib;
+﻿using DALMSSQL.Exceptions;
+using InterfaceLib;
 using System.Data.SqlClient;
 
 namespace DALMSSQL
@@ -29,43 +30,59 @@ namespace DALMSSQL
         }
         public MedewerkerDTO? Inloggen(string email, string wachtwoord)
         {
-            bool isValid = false;
-            db.OpenConnection();
-            MedewerkerDTO med = null;
-            string query = @"SELECT Wachtwoord, Id FROM Medewerker WHERE Email = @email";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@email", email);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                bool isValid = false;
+                db.OpenConnection();
+                MedewerkerDTO med = null;
+                string query = @"SELECT Wachtwoord, Id FROM Medewerker WHERE Email = @email";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@email", email);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    med = new MedewerkerDTO(
-                    reader["Wachtwoord"].ToString(),
-                    Convert.ToInt32(reader["Id"]));
-                    isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.WachtwoordHash);
+                    while (reader.Read())
+                    {
+                        med = new MedewerkerDTO(
+                        reader["Wachtwoord"].ToString(),
+                        Convert.ToInt32(reader["Id"]));
+                        isValid = BCrypt.Net.BCrypt.EnhancedVerify(wachtwoord, med.WachtwoordHash);
+                    }
+                    db.CloseConnetion();
                 }
-                db.CloseConnetion();
+                if (isValid)
+                {
+                    MedewerkerDTO dto = FindById(med.Id);
+                    dto.MijnTeam = GetTeamVanMedewerker(dto);
+                    return dto;
+                }
+                return null;
             }
             if (isValid)
             { 
                 MedewerkerDTO dto = FindById(med.Id);
                 dto.MijnTeam = GetTeamVanMedewerker(dto);
                 return dto;
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
             }
-            return null;
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
         public List<MedewerkerDTO> ZoekOpNaam(string naam)
         {
-            List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
-            db.OpenConnection();
-            string query = @"SELECT * FROM Medewerker WHERE CONCAT_WS(' ', Voornaam, ISNULL(Tussenvoegsel, ' '), Achternaam) LIKE '%' + @naam + '%' ";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@naam", naam);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
+                db.OpenConnection();
+                string query = @"SELECT * FROM Medewerker WHERE CONCAT_WS(' ', Voornaam, ISNULL(Tussenvoegsel, ' '), Achternaam) LIKE '%' + @naam + '%' ";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@naam", naam);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
                     medewerkers.Add(new MedewerkerDTO(reader["Email"].ToString(),
                         reader["Voornaam"].ToString(),
@@ -76,120 +93,180 @@ namespace DALMSSQL
 
 
                 }
+                db.CloseConnetion();
                 return medewerkers;
 
             }
-            db.CloseConnetion();
-            return medewerkers;
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
+            }
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
         public List<MedewerkerDTO> ZoekMedewerkerOpVaardigheid(string naam)
         {
-            List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
-            db.OpenConnection();
-            string query = @"SELECT * FROM Medewerker 
+            try
+            {
+                List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
+                db.OpenConnection();
+                string query = @"SELECT * FROM Medewerker 
                  INNER JOIN MedewerkerVaardigheid on Medewerker.Id = MedewerkerVaardigheid.MedewerkerId
                  INNER JOIN Vaardigheid on Vaardigheid.Id = MedewerkerVaardigheid.VaardigheidId
                  WHERE Vaardigheid.Naam LIKE '%' + @naam + '%'";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@naam", naam);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@naam", naam);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    medewerkers.Add(new MedewerkerDTO(
-                        reader["Email"].ToString(),
-                        reader["Voornaam"].ToString(),
-                        reader["Achternaam"].ToString(),
-                        reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"])));
+                    while (reader.Read())
+                    {
+                        medewerkers.Add(new MedewerkerDTO(
+                            reader["Email"].ToString(),
+                            reader["Voornaam"].ToString(),
+                            reader["Achternaam"].ToString(),
+                            reader["Tussenvoegsel"].ToString(),
+                            Convert.ToInt32(reader["Id"])));
 
+                    }
                 }
+                db.CloseConnetion();
+                return medewerkers;
             }
-            db.CloseConnetion();
-            return medewerkers;
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
+            }
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
         public List<MedewerkerDTO> HaalAlleMedewerkersOp()
         {
-            List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
-            db.OpenConnection();
-            SqlCommand command = new SqlCommand(@"SELECT * FROM Medewerker", db.connection);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                List<MedewerkerDTO> medewerkers = new List<MedewerkerDTO>();
+                db.OpenConnection();
+                SqlCommand command = new SqlCommand(@"SELECT * FROM Medewerker", db.connection);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    medewerkers.Add(new MedewerkerDTO(
-                        reader["Email"].ToString(),
-                        reader["Voornaam"].ToString(),
-                        reader["Achternaam"].ToString(),
-                        reader["Tussenvoegsel"].ToString(),
-                        Convert.ToInt32(reader["Id"])));
+                    while (reader.Read())
+                    {
+                        medewerkers.Add(new MedewerkerDTO(
+                            reader["Email"].ToString(),
+                            reader["Voornaam"].ToString(),
+                            reader["Achternaam"].ToString(),
+                            reader["Tussenvoegsel"].ToString(),
+                            Convert.ToInt32(reader["Id"])));
+                    }
                 }
+                db.CloseConnetion();
+                return medewerkers;
             }
-            db.CloseConnetion();
-            return medewerkers;
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
+            }
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
         public MedewerkerDTO? FindById(int id)
         {
-            MedewerkerDTO? medewerker = null;
-            db.OpenConnection();
-            string query = @"SELECT * FROM Medewerker WHERE Id = @id";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                MedewerkerDTO? medewerker = null;
+                db.OpenConnection();
+                string query = @"SELECT * FROM Medewerker WHERE Id = @id";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    medewerker = new MedewerkerDTO(
-                        reader["Email"].ToString(),
-                        reader["Voornaam"].ToString(), 
-                        reader["Tussenvoegsel"].ToString(),
-                        reader["Achternaam"].ToString(),
-                        Convert.ToInt32(reader["Id"]));
+                    while (reader.Read())
+                    {
+                        medewerker = new MedewerkerDTO(
+                            reader["Email"].ToString(),
+                            reader["Voornaam"].ToString(),
+                            reader["Tussenvoegsel"].ToString(),
+                            reader["Achternaam"].ToString(),
+                            Convert.ToInt32(reader["Id"]));
+                    }
                 }
+                db.CloseConnetion();
+                return medewerker;
             }
-            db.CloseConnetion();
-            return medewerker;
-            
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
+            }
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
 
-        
 
-        public void KoppelMedewerkerAanLeidinggevenden(MedewerkerDTO med,LeidingGevendeDTO leid)
+
+        public void KoppelMedewerkerAanLeidinggevenden(MedewerkerDTO med, LeidingGevendeDTO leid)
         {
-            db.OpenConnection();
-            string query = @"INSERT INTO LeidinggevendeMedewerker VALUES (@leidId,@medId)";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@leidId", leid.UserID);
-            command.Parameters.AddWithValue("@medId", med.Id);
-            command.ExecuteNonQuery();
-            db.CloseConnetion();
+            try
+            {
+                db.OpenConnection();
+                string query = @"INSERT INTO LeidinggevendeMedewerker VALUES (@leidId,@medId)";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@leidId", leid.UserID);
+                command.Parameters.AddWithValue("@medId", med.Id);
+                command.ExecuteNonQuery();
+                db.CloseConnetion();
+            }
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
+            }
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
 
         public TeamDTO? GetTeamVanMedewerker(MedewerkerDTO dto)
         {
-            TeamDTO? team = null;
-            db.OpenConnection();
-            string query = @"SELECT * FROM Team T 
-            INNER JOIN Medewerker M ON M.TeamId = T.Id WHERE M.Id = @id";
-            SqlCommand command = new SqlCommand(query, db.connection);
-            command.Parameters.AddWithValue("@id", dto.Id);
-            SqlDataReader reader = command.ExecuteReader();
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                TeamDTO? team = null;
+                db.OpenConnection();
+                string query = @"SELECT * FROM Team T INNER JOIN Medewerker M ON M.TeamId = T.Id WHERE M.Id = @id";
+                SqlCommand command = new SqlCommand(query, db.connection);
+                command.Parameters.AddWithValue("@id", dto.Id);
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    team = new TeamDTO(
-                    Convert.ToInt32(reader["Id"]),
-                    reader["TeamKleur"].ToString(),
-                    reader["Taak"].ToString(),
-                    (float)Convert.ToDouble(reader["Gem_Rating"]));
+                    while (reader.Read())
+                    {
+                        team = new TeamDTO(
+                        Convert.ToInt32(reader["Id"]),
+                        reader["TeamKleur"].ToString(),
+                        reader["Taak"].ToString(),
+                        (float)Convert.ToDouble(reader["Gem_Rating"]));
+                    }
                 }
+                db.CloseConnetion();
+                return team;
             }
-            db.CloseConnetion();
-            return team;
+            catch (SqlException sqlex)
+            {
+                throw new TemporaryException("Kan geen verbinding maken met de server");
+            }
+            catch (Exception ex)
+            {
+                throw new PermanentException("Er is een fout opgetreden");
+            }
         }
     }
 }

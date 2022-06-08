@@ -20,11 +20,15 @@ namespace BusnLogicVecozo
         {
             return container.GetAll().Select(x => new Team(x)).ToList();
         }
-        
+
         public Team FindById(int id)
         {
             TeamDTO dto = container.FindByUserId(id);
             return new Team(dto);
         }
+
+
+
+
     }
 }

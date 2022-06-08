@@ -28,12 +28,12 @@ namespace VecozoWep.Models
             IsAdmin = isAdmin;
         }
         
-        public LeidinggevendenVM(LeidingGevende admin)
+        public LeidinggevendenVM(LeidingGevende medewerker)
         {
-            Voornaam = admin.Voornaam;
-            Tussenvoegsel = admin.Tussenvoegsel;
-            Achternaam = admin.Achternaam;
-            UserID = admin.UserID;
+            Voornaam = medewerker.Voornaam;
+            Tussenvoegsel = medewerker.Tussenvoegsel;
+            Achternaam = medewerker.Achternaam;
+            UserID = medewerker.UserID;
         }
 
         //public LeidinggevendenVM(Medewerker medewerker)
