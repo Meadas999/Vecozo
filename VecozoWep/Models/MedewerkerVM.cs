@@ -6,14 +6,14 @@ namespace VecozoWep.Models
 {
     public class MedewerkerVM
     {
-        [Required]
+        [Required(ErrorMessage = "Voornaam is verplicht")]
         public string Voornaam { get; set; }
         public string? Tussenvoegsel { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Achternaam is verplicht")]
         public string Achternaam { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email is verplicht")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Wachtwoord is verplicht")]
         public string Wachtwoord { get; set; }
         public int UserID { get; set; }
         public TeamVM? MijnTeam { get; set; } = new();
@@ -49,16 +49,14 @@ namespace VecozoWep.Models
             Tussenvoegsel = medewerker.Tussenvoegsel;
             Achternaam = medewerker.Achternaam;
             UserID = medewerker.UserID;
-            MijnTeam = new(medewerker.MijnTeam);
+            //MijnTeam = new(medewerker.MijnTeam);
             Ratings = medewerker.Ratings.Select(x => new RatingVM(x)).ToList();
 
         }
   
         public string GetFullName()
         {
-            return $"{Voornaam} {Voornaam} {Achternaam}";
+            return $"{Voornaam} {Tussenvoegsel} {Achternaam}";
         }
     }
 }
-
-

@@ -44,6 +44,29 @@
                 document.getElementById('adminPanel').style.visibility = 'visible'
             }
         }
+
+        function ValidCheck(){
+            var selectTeam = document.getElementById('team');
+            var selectAdmin = document.getElementById('admin');
+            var rbtnAdmin = document.getElementById('Admin');
+            var optionTeam = selectTeam.options[selectTeam.selectedIndex];
+            var optionAdmin = selectAdmin.options[selectAdmin.selectedIndex];
+            if(rbtnAdmin.checked == false)
+                {
+                    if(optionAdmin.text !== "" && optionTeam.text !== "")
+                    {
+                       return true;
+                    }
+                    else{
+                       document.getElementById('teampie').innerHTML = "team en leidinggevende kiezen is verplicht."
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+        }
     </script>
 </head>
 <section class="vh-100 gradient-custom">
@@ -53,11 +76,11 @@
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Account maken</h3>
-                        <form asp-action="Register" asp-method="post">
+                        <form asp-action="Register" asp-method="post" onsubmit="return ValidCheck()">
                             <div class="row">
                                 <div class="col-md-4 mb-4">
                                     <div class="form-outline">
-                                        <input type="text" id="firstName" class="form-control form-control-lg" asp-for="@Model.Medewerker.Voornaam" />
+                                        <input type="text" id="firstName" class="form-control form-control-lg" asp-for="@Model.Medewerker.Voornaam" required />
                                         <label class="form-label" asp-for="@Model.Medewerker.Voornaam">Voornaam</label>
                                     </div>
 
@@ -71,52 +94,53 @@
                                 </div>
                                 <div class="col-md-4 mb-4">
                                     <div class="form-outline">
-                                        <input type="text" id="lastName" class="form-control form-control-lg" asp-for="@Model.Medewerker.Achternaam" />
+                                        <input type="text" id="lastName" class="form-control form-control-lg" asp-for="@Model.Medewerker.Achternaam" required />
                                         <label class="form-label" asp-for="@Model.Medewerker.Achternaam">Achternaam</label>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-4 pb-2">
                                     <div class="form-outline">
-                                        <input type="email" id="emailAddress" class="form-control form-control-lg" asp-for="@Model.Medewerker.Email" />
+                                        <input type="email" id="emailAddress" class="form-control form-control-lg" asp-for="@Model.Medewerker.Email" required />
                                         <label class="form-label" asp-for="@Model.Medewerker.Email">Email</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4 pb-2">
                                     <div class="form-outline">
-                                        <input type="password" id="wachtwoord" class="form-control form-control-lg" asp-for="@Model.Medewerker.Wachtwoord" />
+                                        <input type="password" id="wachtwoord" class="form-control form-control-lg" asp-for="@Model.Medewerker.Wachtwoord" required />
                                         <label class="form-label" for="wachtwoord">Wachtwoord</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-8" id="adminPanel">
+                                    <label class="form-label select-label">Leidinggevende</label><br>
                                     <select id="admin" class="select form-control-sm" onchange="Update()">
-                                        <option value="1" selected disabled>Leidinggevende</option>
+                                        <option type="hidden" value="1" selected disabled></option>
                                         @foreach (var leid in Model.Leidinggevenden)
                                         {
                                             <option value="@leid.UserID">@leid.ToString()</option>
                                         }
                                     </select>
-                                    <label class="form-label select-label">Leidinggevende</label>
                                     <div class="col-md-6 mb-4 pb-2">
                                         <div class="form-outline">
-                                            <input id="text" class="form-control form-control-lg" onfocus="$(this).blur()" />
+                                            <input type="hidden" id="text" class="form-control form-control-lg" onfocus="$(this).blur()" required />
                                             <input type="hidden" asp-for="@Model.Leidinggevende.UserID" id="textID" class="form-control form-control-lg" />
                                             <input type="hidden" asp-for="@Model.Medewerker.IsAdmin" id="textAdmin" class="form-control form-control-lg" />
                                         </div>
                                     </div>
+                                    <label class="form-label select-label">Team</label><br>
                                     <select id="team" class="select form-control-sm" onchange="UpdateTeam()">
-                                        <option value="1" selected disabled>Teams</option>
+                                        <option type="hidden" value="1" selected disabled></option>
                                         @foreach (var team in Model.Teams)
                                         {
                                             <option value="@team.Id">@team.ToString()</option>
                                         }
                                     </select>
                                     <div class="form-outline">
-                                        <input id="mijnTeam" class="form-control form-control-lg" onfocus="$(this).blur()" />
+                                        <p id="teampie" style="color:red"></p>
+                                        <input type="hidden" id="mijnTeam" class="form-control form-control-lg" onfocus="$(this).blur()" required />
                                         <input type="hidden" asp-for="@Model.Team.Id" id="teamID" class="form-control form-control-lg" />
                                     </div>
                                 </div>

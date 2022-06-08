@@ -38,6 +38,15 @@ namespace InterfaceLib
             this.Id = userID;
             MijnTeam = mijnTeam;
         }
+
+        //public MedewerkerDTO(string email, string voornaam, string? tussenvoegsel, string achternaam, int userID)
+        //{
+        //    Email = email;
+        //    Voornaam = voornaam;
+        //    Tussenvoegsel = tussenvoegsel;
+        //    Achternaam = achternaam;
+        //    this.Id = userID;
+        //}
         public MedewerkerDTO(string wachtwoordHash, int id)
         {
             WachtwoordHash = wachtwoordHash;

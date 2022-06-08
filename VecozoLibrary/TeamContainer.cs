@@ -26,9 +26,5 @@ namespace BusnLogicVecozo
             TeamDTO dto = container.FindByUserId(id);
             return new Team(dto);
         }
-
-
-
-
     }
 }

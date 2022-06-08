@@ -70,13 +70,17 @@ namespace VecozoWep.Controllers
             }
             else
             {
-                med.MijnTeam = TC.FindById(vm.Team.Id);
-                MC.Create(med, vm.Medewerker.Wachtwoord);
-                LeidingGevende leid = LC.FindById(vm.Leidinggevende.UserID);
-                Medewerker medewerker = MC.Inloggen(med.Email, vm.Medewerker.Wachtwoord);
-                MC.KoppelMedewerkerAanLeidinggevenden(medewerker, leid);
-                HttpContext.Session.SetInt32("UserId", medewerker.UserID);
-                return RedirectToAction("Index", "Medewerker");
+                if (vm.Leidinggevende.UserID > 0 && vm.Team.Id > 0)
+                {
+                    med.MijnTeam = TC.FindById(vm.Team.Id);
+                    MC.Create(med, vm.Medewerker.Wachtwoord);
+                    LeidingGevende leid = LC.FindById(vm.Leidinggevende.UserID);
+                    Medewerker medewerker = MC.Inloggen(med.Email, vm.Medewerker.Wachtwoord);
+                    MC.KoppelMedewerkerAanLeidinggevenden(medewerker, leid);
+                    HttpContext.Session.SetInt32("UserId", medewerker.UserID);
+                    return RedirectToAction("Index", "Medewerker");
+                }
+                return RedirectToAction("Register", "Login");
             }
         }
     }

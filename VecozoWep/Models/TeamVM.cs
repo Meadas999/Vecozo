@@ -29,7 +29,7 @@ namespace VecozoWeb.Models
             Id = team.Id;
             Kleur = team.Kleur;
             Taak = team.Taak;
-            GemRating = team.GemRating;
+            GemRating = (float)team.GemRating;
         }
 
         public override string ToString()
