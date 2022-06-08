@@ -94,7 +94,7 @@
                             <div class="row">
                                 <div class="col-8" id="adminPanel">
                                     <select id="admin" class="select form-control-sm" onchange="Update()">
-                                        <option value="1" disabled>Leidinggevende</option>
+                                        <option value="1" selected disabled>Leidinggevende</option>
                                         @foreach (var leid in Model.Leidinggevenden)
                                         {
                                             <option value="@leid.UserID">@leid.ToString()</option>
@@ -109,7 +109,7 @@
                                         </div>
                                     </div>
                                     <select id="team" class="select form-control-sm" onchange="UpdateTeam()">
-                                        <option value="1" disabled>Teams</option>
+                                        <option value="1" selected disabled>Teams</option>
                                         @foreach (var team in Model.Teams)
                                         {
                                             <option value="@team.Id">@team.ToString()</option>

@@ -12,7 +12,7 @@ namespace InterfaceLib
         public string Email { get; }
         public string WachtwoordHash { get; }
         public string Voornaam { get; }
-        public string? Tussenvoegsel { get; }
+        public string? Tussenvoegsel { get; set; }
         public string Achternaam { get; }
         public int Id { get; }
         public List<LeidingGevendeDTO> LeidingGevenden { get; set; } = new List<LeidingGevendeDTO>();

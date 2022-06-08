@@ -1,4 +1,5 @@
 ﻿using BusnLogicVecozo;
+using System.ComponentModel.DataAnnotations;
 
 namespace VecozoWep.Models
 {

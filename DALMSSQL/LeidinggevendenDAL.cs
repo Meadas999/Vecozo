@@ -14,6 +14,10 @@ namespace DALMSSQL
         MedewerkerDAL md = new();
         public void Create(LeidingGevendeDTO dto, string newWachtwoord)
         {
+            if (dto.Tussenvoegsel == null)
+            {
+                dto.Tussenvoegsel = "";
+            }
             string wachtwoordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(newWachtwoord, 13);
             db.OpenConnection();
             string query = @"INSERT INTO Leidinggevenden (Voornaam, Tussenvoegsel, Achternaam, Email, Wachtwoord)

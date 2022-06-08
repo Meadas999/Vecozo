@@ -10,6 +10,10 @@ namespace DALMSSQL
 
         public void Create(MedewerkerDTO medewerker, string newWachtwoord)
         {
+            if (medewerker.Tussenvoegsel == null)
+            {
+                medewerker.Tussenvoegsel = "";
+            }
             string wachtwoordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(newWachtwoord, 13);
             db.OpenConnection();
             string query = "INSERT INTO Medewerker (Voornaam, Tussenvoegsel, Achternaam, Email, Wachtwoord, TeamId) VALUES (@Voornaam, @Tussenvoegsel, @Achternaam, @Email, @Wachtwoord, @TeamId)";

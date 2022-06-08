@@ -17,6 +17,7 @@ namespace VecozoWep.Controllers
         public IActionResult Index()
         {
             HttpContext.Session.Clear();
+            HttpContext.Session.SetInt32("IsAdmin", -1);
             InlogVM vm = new();
             return View(vm);
         }
@@ -29,12 +30,14 @@ namespace VecozoWep.Controllers
             {
                 MedewerkerVM mvm = new(user);
                 HttpContext.Session.SetInt32("UserId", mvm.UserID);
+                HttpContext.Session.SetInt32("IsAdmin", 0);
                 return RedirectToAction("Index", "Medewerker");
             }
             else if(admin != null)
             {
                 LeidingGevende lg = LC.Inloggen(vm.Email, vm.Password);
                 HttpContext.Session.SetInt32("UserId", lg.UserID);
+                HttpContext.Session.SetInt32("IsAdmin", 1);                
                 return RedirectToAction("Index", "Admin");
             }
             else
@@ -56,10 +59,10 @@ namespace VecozoWep.Controllers
         [HttpPost]
         public IActionResult Register(GebruikersVM vm)
         {
-            Medewerker med = new(vm.Medewerker.Email, vm.Medewerker.Voornaam, vm.Medewerker.Achternaam,vm.Medewerker.Tussenvoegsel);
+            Medewerker med = new(vm.Medewerker.Email, vm.Medewerker.Voornaam, vm.Medewerker.Achternaam, vm.Medewerker.Tussenvoegsel);
             if (vm.Medewerker.IsAdmin)
             {
-                LeidingGevende l = new(med.Email, med.Voornaam, med.Achternaam,0,med.Tussenvoegsel);
+                LeidingGevende l = new(med.Email, med.Voornaam, med.Achternaam, 0, med.Tussenvoegsel);
                 LC.Create(l, vm.Medewerker.Wachtwoord);
                 LeidingGevende leid = LC.Inloggen(l.Email, vm.Medewerker.Wachtwoord);
                 HttpContext.Session.SetInt32("UserId", leid.UserID);
