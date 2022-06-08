@@ -16,11 +16,11 @@ namespace BusnLogicVecozo
             this.medewerkerContainer = medewerkerContainer;
         }
 
-        public void Create(Medewerker medewerker,string wachtwoord)
+        public void Create(Medewerker medewerker, string wachtwoord)
         {
             medewerkerContainer.Create(medewerker.GetDTOMetTeam(),wachtwoord);
         }
-        
+
         public Medewerker? Inloggen(string email, string wachtwoord)
         {
             MedewerkerDTO? dto = medewerkerContainer.Inloggen(email, wachtwoord);
@@ -31,7 +31,7 @@ namespace BusnLogicVecozo
             }
             return null;
         }
-        
+
         public List<Medewerker> ZoekMedewerkerOpVaardigheid(string naam)
         {
             List<MedewerkerDTO> dtos = medewerkerContainer.ZoekMedewerkerOpVaardigheid(naam);
@@ -80,6 +80,14 @@ namespace BusnLogicVecozo
         public void KoppelMedewerkerAanLeidinggevenden(Medewerker med, LeidingGevende leid)
         {
             medewerkerContainer.KoppelMedewerkerAanLeidinggevenden(med.GetDTO(), leid.GetDTO());
+        }
+
+        public Team? GetTeamVanMedewerker(Medewerker mw)
+        {
+            MedewerkerDTO dto = mw.GetDTO();
+            dto.MijnTeam = medewerkerContainer.GetTeamVanMedewerker(dto);
+            Team team = new Team(dto.MijnTeam);
+            return team;
         }
 
     }

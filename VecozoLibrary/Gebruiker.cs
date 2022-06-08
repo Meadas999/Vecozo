@@ -29,6 +29,12 @@ namespace BusnLogicVecozo
             this.Tussenvoegsel = tussenvoegsel;
             this.Achternaam = achternaam;
         }
+
+        public Gebruiker()
+        {
+            
+        }
+
         public override string ToString()
         {
             return $"{this.Voornaam} {this.Tussenvoegsel} {this.Achternaam}";

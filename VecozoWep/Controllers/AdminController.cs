@@ -1,5 +1,6 @@
 ﻿using BusnLogicVecozo;
 using DALMSSQL;
+using DALMSSQL.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using VecozoWeb.Models;
@@ -15,29 +16,104 @@ namespace VecozoWep.Controllers
         private TeamContainer TC = new(new TeamDAL());
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("UserId") != null)
+            try
             {
-                int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
-                LeidinggevendenVM vm = new(LC.FindById(id));
-                vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
-                MC.KoppelTeamsAanMedewerkers();
-                foreach (MedewerkerVM m in vm.Medewerkers)
+                if (HttpContext.Session.GetInt32("UserId") != null)
                 {
-                    m.Ratings = VC.FindByMedewerker(m.UserID).Select(x => new RatingVM(x)).ToList();
+                    int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
+                    LeidinggevendenVM vm = new(LC.FindById(id));
+                    vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
+                    foreach (MedewerkerVM m in vm.Medewerkers)
+                    {
+                        m.Ratings = VC.FindByMedewerker(m.UserID).Select(x => new RatingVM(x)).ToList();
+                    }
+                    return View(vm);
                 }
-                return View(vm);
+                return RedirectToAction("Index", "Login");
             }
-            return RedirectToAction("Index", "Login");   
+            catch (TemporaryException ex)
+            {
+                return View("SqlErrorMessage");
+            }
+            catch (Exception ex)
+            {
+                return View("PermanentError");
+            }
         }
 
         
         public IActionResult MedewerkerOverzicht(int mwid)
         {
-            HttpContext.Session.SetInt32("MwId", mwid);
-            MedewerkerVM vm = new(MC.FindById(mwid));
-            vm.Ratings = VC.FindByMedewerker(vm.UserID).Select(x => new RatingVM(x)).ToList();
-            //vm.MijnTeam = new(TC.FindById(vm.UserID));
+            try
+            {
+                MedewerkerVM vm = new(MC.FindById(mwid));
+                vm.Ratings = VC.FindByMedewerker(vm.UserID).Select(x => new RatingVM(x)).ToList();
+                vm.MijnTeam = new(TC.FindById(vm.UserID));
+                return View(vm);
+            }
+            catch (TemporaryException ex)
+            {
+                return View("SqlErrorMessage");
+            }
+            catch (Exception ex)
+            {
+                return View("PermanentError");
+            }
+        }
+
+        public IActionResult TeamsOverzicht()
+        {
+            List<TeamVM> vms = new();
+            List<Team> teams = TC.GetAll();
+            foreach(Team team in teams)
+            {
+                vms.Add(new TeamVM(team));
+            }
+            return View(vms);
+        }
+
+        public IActionResult BewerkTeam(int id)
+        {
+            Team team = TC.FindById(id);
+            TeamVM vm = new(team);
             return View(vm);
+        }
+
+
+        [HttpPost]
+        public IActionResult BewerkTeam(TeamVM vm)
+        {
+            Team t = new(vm.Id, vm.Kleur, vm.Taak, vm.GemRating);
+            TC.Update(t);
+            return RedirectToAction("TeamsOverzicht");
+        }
+
+        public IActionResult PasLedenAan(int id)
+        {
+            MedewerkerTeamVM vms = new();
+            List<Medewerker> medewerkers = MC.HaalAlleMedewerkersOp();
+            foreach(Medewerker m in medewerkers)
+            {
+                vms.MedewerkersVM.Add(new MedewerkerVM(m));
+            }
+            Team t = TC.FindById(id);
+            vms.TeamVM = new TeamVM(t);
+            return View(vms);
+        }
+
+        [HttpPost]
+        public IActionResult PasLedenAan(MedewerkerTeamVM vm)
+        {
+            List<Medewerker> medewerkers = new List<Medewerker>();
+            foreach (MedewerkerVM medewerker in vm.MedewerkersVM)
+            {
+                medewerkers.Add(new Medewerker(medewerker.UserID));
+            }
+            foreach (Medewerker mw in medewerkers)
+            {
+                TC.UpdateTeamMedewerker(mw);
+            }
+            return RedirectToAction("TeamsOverzicht");
         }
 
         [HttpGet]

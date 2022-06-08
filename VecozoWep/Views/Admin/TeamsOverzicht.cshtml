@@ -1,0 +1,51 @@
+﻿@model List<VecozoWeb.Models.TeamVM>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h3>Teams</h3>
+<body>
+    <table class="table table-hover" id="medewerkersTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)" scope="col">Naam</th>
+                <th onclick="sortTable(1)" scope="col">Taak</th>
+                <th onclick="sortTable(2)" scope="col">Gemiddelde rating</th>
+                <th onclick="sortTable(3)" scope="col">Bewerk team</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (VecozoWeb.Models.TeamVM t in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action=BewerkTeam asp-route-id="@t.Id">@t.Kleur</a>
+                    </td>
+                    <td>
+                        @t.Taak
+                    </td>
+                    <td>
+                        @t.GemRating
+                    </td>
+                    <td>
+                        <a asp-action=PasLedenAan asp-route-id="@t.Id">
+                         <input type="submit" value="Pas leden aan" class="btn btn-primary" /></a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Update</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            ...
+        </div>
+    </div>
+    <br />
+</body>

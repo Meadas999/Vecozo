@@ -28,6 +28,11 @@ namespace BusnLogicVecozo
             //LeidingGevenden = dto.LeidingGevenden.Select(x => new LeidingGevende(x)).ToList();
             //MijnTeam = new(dto.MijnTeam);
         }
+
+        public Medewerker(int id)
+        {
+            MijnTeam.Id = id;
+        }
         
         public MedewerkerDTO GetDTOMetTeam()
         {

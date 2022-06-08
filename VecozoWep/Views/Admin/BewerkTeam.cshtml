@@ -1,0 +1,26 @@
+﻿@model VecozoWeb.Models.TeamVM
+@{
+    ViewData["Title"] = "BewerkTeam";
+}
+
+<h1>Bewerk Team @Model.Kleur</h1>
+<br />
+
+<form asp-action=BewerkTeam asp-method="post">
+@Html.Label("Kleur")
+<br />
+<input asp-for="@Model.Kleur" required max-length="50" />
+<br />
+<br />
+@Html.Label("Taak")
+<br />
+<input asp-for="@Model.Taak" required max-length="50" />
+<br />
+<br />
+@Html.Label("Gemiddelde Rating")
+<br />
+<input asp-for="@Model.GemRating" required max-length="50" />
+<br />
+<br />
+<input type="submit" value="Update"/>
+</form>

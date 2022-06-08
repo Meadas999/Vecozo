@@ -136,7 +136,6 @@ namespace VecozoWinForms
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "VaardighedenOverzicht";
             this.Text = "VaardighedenOverzicht";
-            this.Load += new System.EventHandler(this.VaardighedenOverzicht_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -32,7 +32,7 @@ namespace VecozoWinForms
             {
                 if (container.BestaandeVaardigeheid(tbVaardigheid.Text) != null)
                 {
-                    container.VoegVaardigheidToeAanMedewerker(jan, container.BestaandeVaardigeheid(tbVaardigheid.Text), rating);
+                    //container.VoegVaardigheidToeAanMedewerker(jan, container.BestaandeVaardigeheid(tbVaardigheid.Text), rating);
                 }
                 else
                 {
@@ -94,8 +94,8 @@ namespace VecozoWinForms
             ToolTip toolTip = new ToolTip();
             if (rb != null && rb.Tag != null)
             {
-                rating = new((Score)Enum.Parse(typeof(Score), rb.Tag.ToString()));
-                toolTip.SetToolTip(rb, rating.GetScoreBeschrijving(Convert.ToInt32(rb.Tag)));
+                //rating = new((Score)Enum.Parse(typeof(Score), rb.Tag.ToString()));
+                //toolTip.SetToolTip(rb, rating.GetScoreBeschrijving(Convert.ToInt32(rb.Tag)));
             }
         }
 
