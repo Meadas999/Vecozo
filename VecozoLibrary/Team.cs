@@ -25,7 +25,7 @@ namespace BusnLogicVecozo
 
         public Team(TeamDTO dto)
         {
-            this.Id = dto.Id;
+            Id = dto.Id;
             this.Kleur = dto.Kleur;
             this.Taak = dto.Taak;
             this.GemRating = dto.GemRating;

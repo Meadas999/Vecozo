@@ -14,7 +14,7 @@ namespace DALMSSQL
         MedewerkerDAL md = new();
         public void Create(LeidingGevendeDTO dto, string newWachtwoord)
         {
-            if(dto.Tussenvoegsel == null)
+            if (dto.Tussenvoegsel == null)
             {
                 dto.Tussenvoegsel = "";
             }
@@ -46,9 +46,9 @@ namespace DALMSSQL
                     reader["Email"].ToString(),
                     reader["Wachtwoord"].ToString(),
                     reader["Voornaam"].ToString(),
-                    reader["Achternaam"].ToString(),
+                    reader["Tussenvoegsel"].ToString(),
                     Convert.ToInt32(reader["Id"]),
-                    reader["Tussenvoegsel"].ToString());
+                    reader["Achternaam"].ToString());
             }
             db.CloseConnetion();
             return dto;
@@ -94,9 +94,9 @@ namespace DALMSSQL
                         reader["Email"].ToString(),
                         reader["Wachtwoord"].ToString(),
                         reader["Voornaam"].ToString(),
-                        reader["Achternaam"].ToString(),
+                        reader["Tussenvoegsel"].ToString(),
                         Convert.ToInt32(reader["Id"]),
-                        reader["Tussenvoegsel"].ToString()
+                        reader["Achternaam"].ToString()
                         );
                     }
                 }

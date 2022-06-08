@@ -11,7 +11,7 @@ namespace DALMSSQL
 {
     public class ConnectionDb
     {
-        public string data = File.ReadAllText(@"C:\Users\zessa\OneDrive - Office 365 Fontys\Proftaak S2\Gezamelijk\CredentialHiding.json");
+        public string data = File.ReadAllText(@"C:\Users\amier\OneDrive - Office 365 Fontys\Proftaak S2\Gezamelijk\CredentialHiding.json");
         public SqlConnection? connection;
         public Rootobject root;
 

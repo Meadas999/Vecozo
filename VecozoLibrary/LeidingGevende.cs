@@ -23,7 +23,7 @@ namespace BusnLogicVecozo
         
         public LeidingGevendeDTO GetDTO()
         {
-            return new LeidingGevendeDTO(this.Email, this.Voornaam, this.Achternaam, this.UserID, this.Tussenvoegsel);
+            return new LeidingGevendeDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
         }
 
 

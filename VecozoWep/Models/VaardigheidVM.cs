@@ -1,5 +1,4 @@
 ﻿using BusnLogicVecozo;
-using VecozoWeb.Models;
 
 namespace VecozoWep.Models
 {
@@ -23,14 +22,11 @@ namespace VecozoWep.Models
             Naam = v.Naam;
             Id = v.Id;
         }
-
-
         public Vaardigheid GetVaardigheid()
         {
             Vaardigheid vaardigheid = new(Naam, Id);
             return vaardigheid;
         }
-        
         public VaardigheidVM()
         {
 
