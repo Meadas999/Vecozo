@@ -92,25 +92,21 @@ namespace VecozoWep.Controllers
         {
             try
             {
-                Medewerker med = new(vm.Medewerker.Email, vm.Medewerker.Voornaam, vm.Medewerker.Achternaam, vm.Medewerker.Tussenvoegsel);
-                if (vm.Medewerker.IsAdmin)
-                {
-                    LeidingGevende l = new(med.Email, med.Voornaam, med.Achternaam, 0, med.Tussenvoegsel);
-                    LC.Create(l, vm.Medewerker.Wachtwoord);
-                    LeidingGevende leid = LC.Inloggen(l.Email, vm.Medewerker.Wachtwoord);
-                    HttpContext.Session.SetInt32("UserId", leid.UserID);
-                    return RedirectToAction("Index", "Admin");
-                }
-                else
-                {
-                    med.MijnTeam = TC.FindById(vm.Team.Id);
-                    MC.Create(med, vm.Medewerker.Wachtwoord);
-                    LeidingGevende leid = LC.FindById(vm.Leidinggevende.UserID);
-                    Medewerker medewerker = MC.Inloggen(med.Email, vm.Medewerker.Wachtwoord);
-                    MC.KoppelMedewerkerAanLeidinggevenden(medewerker, leid);
-                    HttpContext.Session.SetInt32("UserId", medewerker.UserID);
-                    return RedirectToAction("Index", "Medewerker");
-                }
+                LeidingGevende l = new(med.Email, med.Voornaam, med.Achternaam, 0, med.Tussenvoegsel);
+                LC.Create(l, vm.Medewerker.Wachtwoord);
+                LeidingGevende leid = LC.Inloggen(l.Email, vm.Medewerker.Wachtwoord);
+                HttpContext.Session.SetInt32("UserId", leid.UserID);
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                med.MijnTeam = TC.FindById(vm.Team.Id);
+                MC.Create(med, vm.Medewerker.Wachtwoord);
+                LeidingGevende leid = LC.FindById(vm.Leidinggevende.UserID);
+                Medewerker medewerker = MC.Inloggen(med.Email, vm.Medewerker.Wachtwoord);
+                MC.KoppelMedewerkerAanLeidinggevenden(medewerker, leid);
+                HttpContext.Session.SetInt32("UserId", medewerker.UserID);
+                return RedirectToAction("Index", "Medewerker");
             }
             catch (TemporaryException ex)
             {

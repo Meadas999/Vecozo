@@ -14,7 +14,7 @@ namespace VecozoWeb.Models
         public VaardigheidVM Vaardigheid { get; set; }
 
 
-        public RatingVM(int score, string Beschrijving, DateTime datum, VecozoWep.Models.VaardigheidVM vaardigheid)
+        public RatingVM(int score, string Beschrijving, DateTime datum, VaardigheidVM vaardigheid)
         {
             this.Score = score;
             this.Beschrijving = Beschrijving;
@@ -30,6 +30,8 @@ namespace VecozoWeb.Models
             this.Score = rating.Score;
             this.Beschrijving = rating.Beschrijving;
             this.LaatsteDatum = rating.LaatsteDatum;
+            this.vaardigheidNaam = rating.Vaardigheid.Naam;
+            this.vaardigheidId = rating.Vaardigheid.Id;
             this.Vaardigheid = new VaardigheidVM(rating.Vaardigheid.Naam,rating.Vaardigheid.Id);
         }
         public Rating GetRating()

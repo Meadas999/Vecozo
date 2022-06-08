@@ -26,7 +26,7 @@ namespace BusnLogicVecozo
         {
             Ratings = dto.Ratings.Select(x => new Rating(x)).ToList();
             //LeidingGevenden = dto.LeidingGevenden.Select(x => new LeidingGevende(x)).ToList();
-            //MijnTeam = new(dto.MijnTeam);
+            MijnTeam = new(dto.MijnTeam);
         }
 
         public Medewerker(int id)
@@ -34,14 +34,11 @@ namespace BusnLogicVecozo
             MijnTeam.Id = id;
         }
         
-        public MedewerkerDTO GetDTOMetTeam()
+        public MedewerkerDTO GetDTO()
         {
             return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID, this.MijnTeam.GetDTO());
         }
-        public MedewerkerDTO GetDTO()
-        {
-            return new MedewerkerDTO(this.Email, this.Voornaam, this.Tussenvoegsel, this.Achternaam, this.UserID);
-        }
+        
         public override string ToString()
         {
             return base.ToString();

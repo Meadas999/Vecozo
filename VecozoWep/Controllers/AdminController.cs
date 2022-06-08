@@ -2,7 +2,6 @@
 using DALMSSQL;
 using DALMSSQL.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using VecozoWeb.Models;
 using VecozoWep.Models;
 
@@ -18,7 +17,10 @@ namespace VecozoWep.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetInt32("UserId") != null)
+                int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
+                LeidinggevendenVM vm = new(LC.FindById(id));
+                vm.Medewerkers = MC.HaalAlleMedewerkersOp().Select(x => new MedewerkerVM(x)).ToList();
+                foreach (MedewerkerVM m in vm.Medewerkers)
                 {
                     int id = Convert.ToInt32(HttpContext.Session.GetInt32("UserId"));
                     LeidinggevendenVM vm = new(LC.FindById(id));

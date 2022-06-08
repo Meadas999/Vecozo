@@ -11,11 +11,7 @@ namespace DALMSSQL
 
         public void Create(MedewerkerDTO medewerker, string newWachtwoord)
         {
-<<<<<<< Updated upstream
             if (medewerker.Tussenvoegsel == null)
-=======
-            if(medewerker.Tussenvoegsel == null)
->>>>>>> Stashed changes
             {
                 medewerker.Tussenvoegsel = "";
             }
@@ -65,7 +61,7 @@ namespace DALMSSQL
             if (isValid)
             { 
                 MedewerkerDTO dto = FindById(med.Id);
-                //dto.MijnTeam = GetTeamVanMedewerker(dto);
+                dto.MijnTeam = GetTeamVanMedewerker(dto);
                 return dto;
             catch (SqlException sqlex)
             {
@@ -93,9 +89,13 @@ namespace DALMSSQL
                         reader["Achternaam"].ToString(),
                         reader["Tussenvoegsel"].ToString(),
                         Convert.ToInt32(reader["Id"])));
+                        
+
+
                 }
                 db.CloseConnetion();
                 return medewerkers;
+
             }
             catch (SqlException sqlex)
             {

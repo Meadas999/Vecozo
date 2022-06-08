@@ -27,32 +27,8 @@ namespace BusnLogicVecozo
             return new Team(dto);
         }
 
-        public List<Medewerker> GetMedewerkersFromTeam(int teamid)
-        {
-            List<MedewerkerDTO> dtos = container.GetMedewerkersFromTeam(teamid);
-            List<Medewerker> medewerkers = new List<Medewerker>();
-            if (dtos == null)
-            {
-                return null;
-            }
-            else
-            {
-                foreach (MedewerkerDTO m in dtos)
-                {
-                    medewerkers.Add(new Medewerker(m));
-                }
-            }
-            return medewerkers;
-        }
 
-        public void UpdateTeamMedewerker(Medewerker medewerker)
-        {
-            container.UpdateTeamMedewerker(medewerker.GetDTO());
-        }
 
-        public void Update(Team team)
-        {
-            container.Update(team.GetDTO());
-        }
+
     }
 }
